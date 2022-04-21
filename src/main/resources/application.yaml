@@ -2,3 +2,13 @@ server:
   port: 8189
   servlet:
     context-path: /webstore
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  postgresql:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgres
+    password: postgres

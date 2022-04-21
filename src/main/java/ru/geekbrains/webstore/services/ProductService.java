@@ -3,7 +3,7 @@ package ru.geekbrains.webstore.services;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.geekbrains.webstore.models.Product;
+import ru.geekbrains.webstore.entities.Product;
 import ru.geekbrains.webstore.repositories.ProductRepository;
 
 @Service
@@ -13,10 +13,10 @@ public class ProductService {
   private ProductRepository productRepository;
 
   public List<Product> findAll() {
-    return productRepository.findAll();
+    return productRepository.selectAll();
   }
 
   public void add(Product product) {
-    productRepository.add(product);
+    productRepository.create(product);
   }
 }

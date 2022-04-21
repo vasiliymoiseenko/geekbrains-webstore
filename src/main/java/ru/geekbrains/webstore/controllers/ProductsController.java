@@ -6,8 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ru.geekbrains.webstore.models.Product;
+import ru.geekbrains.webstore.entities.Product;
 import ru.geekbrains.webstore.services.ProductService;
 
 @Controller
@@ -28,8 +27,8 @@ public class ProductsController {
   }
 
   @PostMapping("/create")
-  public String addProduct(@RequestParam Long id, @RequestParam String name, @RequestParam Double price) {
-    productService.add(new Product(id, name, price));
+  public String addProduct(@RequestParam Long id, @RequestParam String title, @RequestParam Double price) {
+    //productService.add(new Product(id, title, price));
     return "redirect:/";
   }
 }
