@@ -11,27 +11,38 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/products")
 public class ProductsController {
 
   private ProductService productService;
 
-  @GetMapping("/getAll")
-  public String showIndexPage(Model model) {
-    List<Product> products = productService.findAll();
-    model.addAttribute("products", products);
-    return "index";
+  @GetMapping("/show_all")
+  public String showAllProducts(Model model) {
+    model.addAttribute("products", productService.findAll());
+    return "products";
   }
 
-  @GetMapping("/getAllJson")
-  @ResponseBody
-  public List<Product> getAllJson() {
-    return productService.findAll();
+  @GetMapping("/show/{id}")
+  public String showProduct(Model model, @PathVariable Long id) {
+    model.addAttribute("product", productService.findById(id));
+    return "product_info";
   }
 
-  @GetMapping("/test")
-  @ResponseBody
-  public String responseBlaBla() {
-    return "BlaBla";
+  @GetMapping("/delete/{id}")
+  public String deleteProduct(@PathVariable Long id) {
+    productService.deleteById(id);
+    return "redirect:/products/show_all";
+  }
+
+  @GetMapping("/update")
+  public String updateProduct() {
+    return "update";
+  }
+
+  @PostMapping("/update")
+  public String updateProduct(@RequestParam Long id, @RequestParam String title, @RequestParam Double price) {
+    productService.update(new Product(id, title, price));
+    return "redirect:/products/show_all";
   }
 
   @GetMapping("/create")
@@ -40,8 +51,8 @@ public class ProductsController {
   }
 
   @PostMapping("/create")
-  public String addProduct(@RequestParam Long id, @RequestParam String title, @RequestParam Double price) {
-    //productService.add(new Product(id, title, price));
-    return "redirect:/";
+  public String addProduct(@RequestParam String title, @RequestParam Double price) {
+    productService.save(new Product(null, title, price));
+    return "redirect:/products/show_all";
   }
 }

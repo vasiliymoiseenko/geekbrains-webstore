@@ -13,10 +13,22 @@ public class ProductService {
   private ProductRepository productRepository;
 
   public List<Product> findAll() {
-    return productRepository.selectAll();
+    return productRepository.findAll();
   }
 
-  public void add(Product product) {
-    productRepository.create(product);
+  public Product findById(Long id) {
+    return productRepository.findById(id);
+  }
+
+  public void deleteById(Long id) {
+    productRepository.deleteById(id);
+  }
+
+  public void save(Product product) {
+    productRepository.save(product);
+  }
+
+  public void update(Product product) {
+    productRepository.update(product);
   }
 }

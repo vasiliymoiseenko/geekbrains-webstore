@@ -1,10 +1,6 @@
 package ru.geekbrains.webstore.repositories;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -18,48 +14,33 @@ import ru.geekbrains.webstore.entities.Product;
 public class ProductRepository {
 
   private final EntityManager entityManager;
-  private List<Product> productList;
 
-  @PostConstruct
-  public void init() {
-//    productList = selectAll();
-//    productList = new ArrayList<>(Arrays.asList(
-//        new Product(1L, "Phone", 100.00),
-//        new Product(2L, "TV", 1000.00),
-//        new Product(3L, "Camera", 500.00),
-//        new Product(4L, "X-Box", 400.00),
-//        new Product(5L, "PlayStation", 450.00)
-//    ));
-  }
-
-  @Transactional
-  public Long create(Product product) {
-    entityManager.persist(product);
-    return entityManager.find(Product.class, product.getId()).getId();
-  }
-
-  public Product selectById(int id) {
+  public Product findById(Long id) {
     return entityManager.find(Product.class, id);
   }
 
-  public List<Product> selectAll() {
-    //return Collections.unmodifiableList(productList);
+  public List<Product> findAll() {
     return entityManager
             .createQuery("Select a from Product a", Product.class)
             .getResultList();
   }
 
   @Transactional
-  public int update(Product product) {
-    entityManager.merge(product);
-
-    return 0;
+  public void deleteById(Long id) {
+    Product product = findById(id);
+    entityManager.remove(product);
   }
 
   @Transactional
-  public int delete(Product product) {
-    entityManager.remove(product);
+  public void save(Product product) {
+    entityManager.persist(product);
+  }
 
-    return 0;
+  @Transactional
+  public void update(Product product) {
+    Product productUpdate = findById(product.getId());
+    productUpdate.setPrice(product.getPrice());
+    productUpdate.setTitle(product.getTitle());
+    entityManager.merge(productUpdate);
   }
 }

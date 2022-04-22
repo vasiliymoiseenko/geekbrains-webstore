@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Entity
 @Table
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
 public class Product {
 

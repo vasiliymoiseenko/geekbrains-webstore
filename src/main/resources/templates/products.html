@@ -14,8 +14,10 @@
     <thead>
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Name</th>
+      <th scope="col">Title</th>
       <th scope="col">Price</th>
+      <th></th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -23,10 +25,17 @@
       <td th:text="${p.id}"></td>
       <td th:text="${p.title}"></td>
       <td th:text="${p.price}"></td>
+      <td>
+        <a th:href="@{'/products/show/' + ${p.id}}" class="btn btn-primary">Info</a>
+      </td>
+      <td>
+        <a th:href="@{'/products/delete/' + ${p.id}}" class="btn btn-primary">Delete</a>
+      </td>
     </tr>
     </tbody>
   </table>
-  <a th:href="@{'/create'}" class="btn btn-primary">Add product</a>
+  <a th:href="@{'/products/create'}" class="btn btn-primary">Add product</a>
+  <a th:href="@{'/products/update'}" class="btn btn-primary">Update product</a>
 </div>
 </body>
 </html>
