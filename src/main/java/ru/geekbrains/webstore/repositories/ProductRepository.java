@@ -22,6 +22,7 @@ public class ProductRepository {
 
   @PostConstruct
   public void init() {
+//    productList = selectAll();
 //    productList = new ArrayList<>(Arrays.asList(
 //        new Product(1L, "Phone", 100.00),
 //        new Product(2L, "TV", 1000.00),
@@ -42,10 +43,10 @@ public class ProductRepository {
   }
 
   public List<Product> selectAll() {
-    return Collections.unmodifiableList(productList);
-//    return entityManager
-//        .createQuery("Select a from Product a", Product.class)
-//        .getResultList();
+    //return Collections.unmodifiableList(productList);
+    return entityManager
+            .createQuery("Select a from Product a", Product.class)
+            .getResultList();
   }
 
   @Transactional
