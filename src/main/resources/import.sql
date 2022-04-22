@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXISTS public.sdfsd
+CREATE TABLE IF NOT EXISTS public.test
 (
     id integer NOT NULL,
-    CONSTRAINT sdfsd_pkey PRIMARY KEY (id)
-)
+    CONSTRAINT test_pkey PRIMARY KEY (id)
+);
