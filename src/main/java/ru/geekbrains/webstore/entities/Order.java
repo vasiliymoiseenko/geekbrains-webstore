@@ -3,7 +3,6 @@ package ru.geekbrains.webstore.entities;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
 import javax.persistence.*;
 
 @Data

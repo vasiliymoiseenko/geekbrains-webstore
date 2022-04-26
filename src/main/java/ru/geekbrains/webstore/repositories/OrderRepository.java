@@ -2,9 +2,7 @@ package ru.geekbrains.webstore.repositories;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.entities.Order;
-
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;

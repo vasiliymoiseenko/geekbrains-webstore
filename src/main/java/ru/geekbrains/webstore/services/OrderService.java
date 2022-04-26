@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.entities.Order;
 import ru.geekbrains.webstore.repositories.OrderRepository;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

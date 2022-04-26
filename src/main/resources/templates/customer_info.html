@@ -10,9 +10,19 @@
 </head>
 <body>
 <div class="container">
-<h2>Customer info</h2>
-<h3 th:text="${'ID: ' + customer.id}"></h3>
-<h3 th:text="${'Name: ' + customer.name}"></h3>
+    <h2>Customer info</h2>
+    <h3 th:text="${'ID: ' + customer.id}"></h3>
+    <h3 th:text="${'Name: ' + customer.name}"></h3>
+    <h3 th:text="${'Products list: '}"></h3>
+    <table class="table">
+        <tbody>
+        <tr th:each="c : ${customer.orders}">
+            <td th:if="${c.customer.id == customer.id}">
+                <h3 th:text="${c.product.title}"></h3>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 <a th:href="@{'/customers/show_all'}"  class="btn btn-primary">Customers List</a>
 </div>
 </body>

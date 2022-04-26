@@ -1,7 +1,5 @@
 package ru.geekbrains.webstore.services;
 
-import ru.geekbrains.webstore.entities.Product;
-
 import java.util.List;
 
 public interface Service<T> {

@@ -1,7 +1,5 @@
 package ru.geekbrains.webstore.repositories;
 
-import ru.geekbrains.webstore.entities.Product;
-
 import java.util.List;
 
 public interface Repository<T> {

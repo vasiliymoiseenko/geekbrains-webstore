@@ -10,10 +10,20 @@
 </head>
 <body>
 <div class="container">
-<h2>Product info</h2>
-<h3 th:text="${'ID: ' + product.id}"></h3>
-<h3 th:text="${'Title: ' + product.title}"></h3>
-<h3 th:text="${'Price: ' + product.price}"></h3>
+    <h2>Product info</h2>
+    <h3 th:text="${'ID: ' + product.id}"></h3>
+    <h3 th:text="${'Title: ' + product.title}"></h3>
+    <h3 th:text="${'Price: ' + product.price}"></h3>
+    <h3 th:text="${'Customers list: '}"></h3>
+    <table class="table">
+        <tbody>
+        <tr th:each="o : ${product.orders}">
+            <td th:if="${o.product.id == product.id}">
+                <h3 th:text="${o.customer.name}"></h3>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 <a th:href="@{'/products/show_all'}"  class="btn btn-primary">Product List</a>
 </div>
 </body>
