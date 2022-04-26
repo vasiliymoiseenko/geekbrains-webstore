@@ -13,13 +13,14 @@ import lombok.experimental.Accessors;
 
 @Data
 @Entity
-@Table
+@Table(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
 public class Product {
 
   @Id
+  @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
