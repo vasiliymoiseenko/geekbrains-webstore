@@ -39,7 +39,11 @@ public class ProductController {
 
   @PostMapping("/update")
   public String updateProduct(@RequestParam Long id, @RequestParam String title, @RequestParam Double price) {
-    productService.update(new Product(id, title, price));
+    Product product = new Product();
+    product.setId(id);
+    product.setTitle(title);
+    product.setPrice(price);
+    productService.update(product);
     return "redirect:/products/show_all";
   }
 
@@ -50,7 +54,10 @@ public class ProductController {
 
   @PostMapping("/create")
   public String addProduct(@RequestParam String title, @RequestParam Double price) {
-    productService.save(new Product(null, title, price));
+    Product product = new Product();
+    product.setTitle(title);
+    product.setPrice(price);
+    productService.save(product);
     return "redirect:/products/show_all";
   }
 }

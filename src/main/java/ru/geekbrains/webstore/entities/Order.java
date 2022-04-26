@@ -1,28 +1,31 @@
 package ru.geekbrains.webstore.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
-@Table(name = "customers")
+@Table(name = "orders")
 @NoArgsConstructor
 @Accessors(chain = true)
-public class Customer {
+public class Order {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "purchase_price")
+    private Double purchasePrise;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Order> orders;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

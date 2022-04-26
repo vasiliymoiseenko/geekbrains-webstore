@@ -39,7 +39,10 @@ public class CustomerController {
 
   @PostMapping("/update")
   public String updateCustomer(@RequestParam Long id, @RequestParam String name) {
-    customerService.update(new Customer(id, name));
+    Customer customer = new Customer();
+    customer.setId(id);
+    customer.setName(name);
+    customerService.update(customer);
     return "redirect:/customers/show_all";
   }
 
@@ -50,7 +53,9 @@ public class CustomerController {
 
   @PostMapping("/create")
   public String addCustomer(@RequestParam String name) {
-    customerService.save(new Customer(null, name));
+    Customer customer = new Customer();
+    customer.setName(name);
+    customerService.save(customer);
     return "redirect:/customers/show_all";
   }
 }
