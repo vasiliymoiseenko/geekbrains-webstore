@@ -7,12 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.webstore.entities.Product;
 import ru.geekbrains.webstore.services.ProductService;
 
-import java.util.List;
-
 @Controller
 @AllArgsConstructor
 @RequestMapping("/products")
-public class ProductsController {
+public class ProductController {
 
   private ProductService productService;
 

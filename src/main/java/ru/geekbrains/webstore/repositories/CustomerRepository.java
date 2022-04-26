@@ -37,11 +37,13 @@ public class CustomerRepository implements Repository<Customer>{
     }
 
     @Override
+    @Transactional
     public void save(Customer customer) {
         entityManager.persist(customer);
     }
 
     @Override
+    @Transactional
     public void update(Customer customer) {
         entityManager.merge(customer);
     }
