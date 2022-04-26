@@ -34,7 +34,7 @@ public class ProductController {
 
   @GetMapping("/update")
   public String updateProduct() {
-    return "update";
+    return "product_update";
   }
 
   @PostMapping("/update")
@@ -45,7 +45,7 @@ public class ProductController {
 
   @GetMapping("/create")
   public String showCreatePage() {
-    return "create";
+    return "product_create";
   }
 
   @PostMapping("/create")
