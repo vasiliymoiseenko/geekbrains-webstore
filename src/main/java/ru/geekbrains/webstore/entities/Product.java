@@ -24,6 +24,6 @@ public class Product {
   @Column(name = "price")
   private Double price;
 
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Order> orders;
 }
