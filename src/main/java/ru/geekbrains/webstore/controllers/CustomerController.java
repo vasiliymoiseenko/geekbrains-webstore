@@ -22,7 +22,7 @@ public class CustomerController {
 
   @GetMapping("/show/{id}")
   public String showCustomer(Model model, @PathVariable Long id) {
-    model.addAttribute("customer", customerService.findById(id));
+    model.addAttribute("customer", customerService.findById(id).get());
     return "customer_info";
   }
 
@@ -42,7 +42,7 @@ public class CustomerController {
     Customer customer = new Customer();
     customer.setId(id);
     customer.setName(name);
-    customerService.update(customer);
+    customerService.save(customer);
     return "redirect:/customers/show_all";
   }
 

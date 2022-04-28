@@ -13,17 +13,17 @@ import ru.geekbrains.webstore.services.OrderService;
 @RequestMapping("/orders")
 public class OrderController {
 
-    private OrderService orderService;
+  private OrderService orderService;
 
-    @GetMapping("/show_all")
-    public  String showOrders(Model model) {
-        model.addAttribute("orders", orderService.findAll());
-        return "orders";
-    }
+  @GetMapping("/show_all")
+  public String showOrders(Model model) {
+    model.addAttribute("orders", orderService.findAll());
+    return "orders";
+  }
 
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        orderService.deleteById(id);
-        return "redirect:/orders/show_all";
-    }
+  @GetMapping("/delete/{id}")
+  public String deleteProduct(@PathVariable Long id) {
+    orderService.deleteById(id);
+    return "redirect:/orders/show_all";
+  }
 }

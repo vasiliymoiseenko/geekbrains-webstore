@@ -5,13 +5,11 @@ import java.util.Optional;
 
 public interface Service<T> {
 
-    List<T> findAll();
+  List<T> findAll();
 
-    Optional<T> findById(Long id);
+  Optional<T> findById(Long id);
 
-    void deleteById(Long id);
+  void deleteById(Long id);
 
-    void save(T object);
-
-    void update(T object);
+  void save(T object);
 }
