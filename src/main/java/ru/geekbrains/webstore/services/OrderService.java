@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.entities.Order;
 import ru.geekbrains.webstore.repositories.OrderRepository;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class OrderService implements ru.geekbrains.webstore.services.Service<Ord
     }
 
     @Override
-    public Order findById(Long id) {
+    public Optional<Order> findById(Long id) {
         return orderRepository.findById(id);
     }
 
@@ -34,6 +35,6 @@ public class OrderService implements ru.geekbrains.webstore.services.Service<Ord
 
     @Override
     public void update(Order order) {
-        orderRepository.update(order);
+        orderRepository.save(order);
     }
 }

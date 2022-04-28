@@ -1,6 +1,8 @@
 package ru.geekbrains.webstore.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.entities.Product;
@@ -18,7 +20,7 @@ public class ProductService implements ru.geekbrains.webstore.services.Service<P
   }
 
   @Override
-  public Product findById(Long id) {
+  public Optional<Product> findById(Long id) {
     return productRepository.findById(id);
   }
 
@@ -34,6 +36,6 @@ public class ProductService implements ru.geekbrains.webstore.services.Service<P
 
   @Override
   public void update(Product product) {
-    productRepository.update(product);
+    productRepository.save(product);
   }
 }

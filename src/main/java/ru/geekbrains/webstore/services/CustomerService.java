@@ -6,6 +6,7 @@ import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.repositories.CustomerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class CustomerService implements ru.geekbrains.webstore.services.Service<
     }
 
     @Override
-    public Customer findById(Long id) {
+    public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
 
@@ -35,6 +36,6 @@ public class CustomerService implements ru.geekbrains.webstore.services.Service<
 
     @Override
     public void update(Customer customer) {
-        customerRepository.update(customer);
+        customerRepository.save(customer);
     }
 }

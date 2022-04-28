@@ -1,12 +1,13 @@
 package ru.geekbrains.webstore.services;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Service<T> {
 
     List<T> findAll();
 
-    T findById(Long id);
+    Optional<T> findById(Long id);
 
     void deleteById(Long id);
 
