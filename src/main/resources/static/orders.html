@@ -33,7 +33,7 @@
       <td>{{o.customerName}}</td>
       <td>{{o.productTitle}}</td>
       <td>
-        <button class="btn btn-primary" ng-click="deleteOrder(p)">Delete</button>
+        <button class="btn btn-primary" ng-click="deleteOrder(o)">Delete</button>
       </td>
     </tr>
     </tbody>
@@ -48,6 +48,17 @@
     </ul>
   </nav>
 
+  <h3>Save or Update Order</h3>
+  <form novalidate ng-submit="saveOrUpdateOrder()">
+    <input class="form-control" type="text" placeholder="Id" ng-model="new_order.id">
+    <p></p>
+    <input class="form-control" type="number" placeholder="Purchase price" ng-model="new_order.purchasePrise">
+    <p></p>
+    <input class="form-control" type="text" placeholder="Customer name" ng-model="new_order.customerName">
+    <p></p>
+    <input class="form-control" type="text" placeholder="Product title" ng-model="new_order.productTitle">
+    <p></p>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
 </body>

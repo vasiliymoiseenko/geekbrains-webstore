@@ -19,12 +19,32 @@ angular.module('webstore-front', []).controller('ordersController',
         });
       };
 
-      $scope.deleteProduct = function (order) {
+      $scope.deleteOrder = function (order) {
         $http.delete(contextPath + order.id)
         .then(function (response) {
           $scope.loadOrders(currentPageIndex);
         });
       };
+
+      $scope.saveOrUpdateOrder = function () {
+        if ($scope.new_order.id == null) {
+          $http.post(contextPath, $scope.new_order)
+          .then(function successCallback(response) {
+            $scope.loadOrders(currentPageIndex);
+            $scope.new_order = null;
+          }, function failureCallback(response) {
+            alert(response.data.message);
+          });
+        } else {
+          $http.put(contextPath, $scope.new_order)
+          .then(function successCallback(response) {
+            $scope.loadOrders(currentPageIndex);
+            $scope.new_order = null;
+          }, function failureCallback(response) {
+            alert(response.data.message);
+          });
+        }
+      }
 
       $scope.generatePagesIndexes = function (startPage, endPage) {
         let arr = [];
