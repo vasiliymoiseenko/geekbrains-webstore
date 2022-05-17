@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.webstore.entities.Product;
 import ru.geekbrains.webstore.services.ProductService;
 
+import java.util.Comparator;
+
 @Controller
 @AllArgsConstructor
 @RequestMapping("/products")
@@ -20,9 +22,15 @@ public class ProductController {
     return "products";
   }
 
+  @GetMapping("/filter")
+  public String showFilteredProducts(Model model, @RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice) {
+    model.addAttribute("products", productService.findAllByPrice(minPrice, maxPrice));
+    return "products";
+  }
+
   @GetMapping("/show/{id}")
   public String showProduct(Model model, @PathVariable Long id) {
-    model.addAttribute("product", productService.findById(id));
+    model.addAttribute("product", productService.findById(id).get());
     return "product_info";
   }
 
@@ -43,7 +51,7 @@ public class ProductController {
     product.setId(id);
     product.setTitle(title);
     product.setPrice(price);
-    productService.update(product);
+    productService.save(product);
     return "redirect:/products/show_all";
   }
 

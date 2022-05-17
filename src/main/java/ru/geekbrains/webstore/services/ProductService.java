@@ -1,6 +1,8 @@
 package ru.geekbrains.webstore.services;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.entities.Product;
@@ -18,7 +20,7 @@ public class ProductService implements ru.geekbrains.webstore.services.Service<P
   }
 
   @Override
-  public Product findById(Long id) {
+  public Optional<Product> findById(Long id) {
     return productRepository.findById(id);
   }
 
@@ -32,8 +34,16 @@ public class ProductService implements ru.geekbrains.webstore.services.Service<P
     productRepository.save(product);
   }
 
-  @Override
-  public void update(Product product) {
-    productRepository.update(product);
+  public List<Product> findAllByPrice(Double minPrice, Double maxPrice) {
+    if (minPrice == null && maxPrice == null) {
+      return Collections.emptyList();
+    }
+    if (minPrice != null && maxPrice != null) {
+      return productRepository.findAllByPriceBetween(minPrice, maxPrice);
+    }
+    if (minPrice == null) {
+      return productRepository.findAllByPriceIsLessThanEqual(maxPrice);
+    }
+    return productRepository.findAllByPriceGreaterThanEqual(minPrice);
   }
 }
