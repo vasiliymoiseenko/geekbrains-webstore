@@ -1,29 +1,73 @@
 package ru.geekbrains.webstore.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.geekbrains.webstore.dtos.OrderDto;
+import ru.geekbrains.webstore.entities.Customer;
+import ru.geekbrains.webstore.entities.Order;
+import ru.geekbrains.webstore.entities.Product;
+import ru.geekbrains.webstore.services.CustomerService;
 import ru.geekbrains.webstore.services.OrderService;
+import ru.geekbrains.webstore.services.ProductService;
 
-@Controller
+@RestController
 @AllArgsConstructor
-@RequestMapping("/orders")
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 
   private OrderService orderService;
+  private CustomerService customerService;
+  private ProductService productService;
 
-  @GetMapping("/show_all")
-  public String showOrders(Model model) {
-    model.addAttribute("orders", orderService.findAll());
-    return "orders";
+  @GetMapping
+  public Page<OrderDto> findAll(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+    if (pageIndex < 1) {
+      pageIndex = 1;
+    }
+    return orderService.findAll(pageIndex - 1, 10).map(OrderDto::new);
   }
 
-  @GetMapping("/delete/{id}")
-  public String deleteProduct(@PathVariable Long id) {
+  @GetMapping("/{id}")
+  public OrderDto findById(@PathVariable Long id) {
+    return new OrderDto(orderService.findById(id).get());
+  }
+
+  @PostMapping
+  public OrderDto save(@RequestBody OrderDto orderDto) {
+    Order order = new Order();
+    order.setPurchasePrise(orderDto.getPurchasePrise());
+    Customer customer = customerService.findByName(orderDto.getCustomerName()).get();
+    order.setCustomer(customer);
+    Product product = productService.findByTitle(orderDto.getProductTitle()).get();
+    order.setProduct(product);
+    orderService.save(order);
+    return new OrderDto(order);
+  }
+
+  @PutMapping
+  public OrderDto update(@RequestBody OrderDto orderDto) {
+    Order order = new Order();
+    order.setId(orderDto.getId());
+    order.setPurchasePrise(orderDto.getPurchasePrise());
+    Customer customer = customerService.findByName(orderDto.getCustomerName()).get();
+    order.setCustomer(customer);
+    Product product = productService.findByTitle(orderDto.getProductTitle()).get();
+    order.setProduct(product);
+    orderService.save(order);
+    return new OrderDto(order);
+  }
+
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable Long id) {
     orderService.deleteById(id);
-    return "redirect:/orders/show_all";
   }
 }

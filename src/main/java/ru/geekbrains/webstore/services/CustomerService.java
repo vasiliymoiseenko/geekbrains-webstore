@@ -1,12 +1,12 @@
 package ru.geekbrains.webstore.services;
 
+import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.repositories.CustomerRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -15,8 +15,8 @@ public class CustomerService implements ru.geekbrains.webstore.services.Service<
   private CustomerRepository customerRepository;
 
   @Override
-  public List<Customer> findAll() {
-    return customerRepository.findAll();
+  public Page<Customer> findAll(int pageIndex, int pageSize) {
+    return customerRepository.findAll(PageRequest.of(pageIndex, pageSize));
   }
 
   @Override
@@ -32,5 +32,9 @@ public class CustomerService implements ru.geekbrains.webstore.services.Service<
   @Override
   public void save(Customer customer) {
     customerRepository.save(customer);
+  }
+
+  public Optional<Customer> findByName(String name) {
+    return customerRepository.findCustomerByName(name);
   }
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Customers List</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <script src="customers.js"></script>
+
+</head>
+<body ng-app="webstore-front">
+<div class="container" ng-controller="customersController">
+  <p></p>
+  <h1>Customers List</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Price</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="c in customersPage.content">
+      <td>{{c.id}}</td>
+      <td>{{c.name}}</td>
+      <td>
+        <button class="btn btn-primary" ng-click="deleteCustomer(c)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p></p>
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item" ng-repeat="pageIndex in paginationArray">
+        <button class="page-link" ng-click="loadCustomers(pageIndex)">{{pageIndex}}</button>
+      </li>
+    </ul>
+  </nav>
+
+  <p></p>
+  <h3>Save or Update Customer</h3>
+  <form novalidate ng-submit="saveOrUpdateCustomer()">
+    <input class="form-control" type="text" placeholder="Id" ng-model="new_customer.id">
+    <p></p>
+    <input class="form-control" type="text" placeholder="Title" ng-model="new_customer.name">
+    <p></p>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+</body>
+</html>

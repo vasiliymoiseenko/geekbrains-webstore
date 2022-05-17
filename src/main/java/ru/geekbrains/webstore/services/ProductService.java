@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.entities.Product;
 import ru.geekbrains.webstore.repositories.ProductRepository;
@@ -15,8 +17,8 @@ public class ProductService implements ru.geekbrains.webstore.services.Service<P
   private ProductRepository productRepository;
 
   @Override
-  public List<Product> findAll() {
-    return productRepository.findAll();
+  public Page<Product> findAll(int pageIndex, int pageSize) {
+    return productRepository.findAll(PageRequest.of(pageIndex, pageSize));
   }
 
   @Override
@@ -45,5 +47,9 @@ public class ProductService implements ru.geekbrains.webstore.services.Service<P
       return productRepository.findAllByPriceIsLessThanEqual(maxPrice);
     }
     return productRepository.findAllByPriceGreaterThanEqual(minPrice);
+  }
+
+  public Optional<Product> findByTitle(String title) {
+    return productRepository.findProductByTitle(title);
   }
 }

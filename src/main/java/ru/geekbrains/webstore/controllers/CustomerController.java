@@ -1,61 +1,59 @@
 package ru.geekbrains.webstore.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.geekbrains.webstore.dtos.CustomerDto;
 import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.services.CustomerService;
 
-@Controller
+@RestController
 @AllArgsConstructor
-@RequestMapping("/customers")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
   private CustomerService customerService;
 
-  @GetMapping("/show_all")
-  public String showAllCustomers(Model model) {
-    model.addAttribute("customers", customerService.findAll());
-    return "customers";
+  @GetMapping
+  public Page<CustomerDto> findAll(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+    if (pageIndex < 1) {
+      pageIndex = 1;
+    }
+    return customerService.findAll(pageIndex - 1, 10).map(CustomerDto::new);
   }
 
-  @GetMapping("/show/{id}")
-  public String showCustomer(Model model, @PathVariable Long id) {
-    model.addAttribute("customer", customerService.findById(id).get());
-    return "customer_info";
+  @GetMapping("/{id}")
+  public CustomerDto findById(@PathVariable Long id) {
+    return new CustomerDto(customerService.findById(id).get());
   }
 
-  @GetMapping("/delete/{id}")
-  public String deleteCustomer(@PathVariable Long id) {
+  @PostMapping
+  public CustomerDto save(@RequestBody CustomerDto customerDto) {
+    Customer customer = new Customer();
+    customer.setName(customerDto.getName());
+    customerService.save(customer);
+    return new CustomerDto(customer);
+  }
+
+  @PutMapping
+  public CustomerDto update(@RequestBody CustomerDto customerDto) {
+    Customer customer = new Customer();
+    customer.setId(customerDto.getId());
+    customer.setName(customerDto.getName());
+    customerService.save(customer);
+    return new CustomerDto(customer);
+  }
+
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable Long id) {
     customerService.deleteById(id);
-    return "redirect:/customers/show_all";
-  }
-
-  @GetMapping("/update")
-  public String updateCustomer() {
-    return "customer_update";
-  }
-
-  @PostMapping("/update")
-  public String updateCustomer(@RequestParam Long id, @RequestParam String name) {
-    Customer customer = new Customer();
-    customer.setId(id);
-    customer.setName(name);
-    customerService.save(customer);
-    return "redirect:/customers/show_all";
-  }
-
-  @GetMapping("/create")
-  public String showCreatePage() {
-    return "customer_create";
-  }
-
-  @PostMapping("/create")
-  public String addCustomer(@RequestParam String name) {
-    Customer customer = new Customer();
-    customer.setName(name);
-    customerService.save(customer);
-    return "redirect:/customers/show_all";
   }
 }
