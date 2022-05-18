@@ -50,8 +50,8 @@ public class ProductController {
 
   @PutMapping
   public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-    Product product = new Product();
-    product.setId(productDto.getId());
+    Long id = productDto.getId();
+    Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found"));
     product.setTitle(productDto.getTitle());
     product.setPrice(productDto.getPrice());
     productService.save(product);

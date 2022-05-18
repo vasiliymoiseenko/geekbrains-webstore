@@ -59,8 +59,8 @@ public class OrderController {
 
   @PutMapping
   public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-    Order order = new Order();
-    order.setId(orderDto.getId());
+    Long id = orderDto.getId();
+    Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + " not found"));
     order.setPurchasePrise(orderDto.getPurchasePrise());
     Customer customer = customerService.findByName(orderDto.getCustomerName())
         .orElseThrow(() -> new ResourceNotFoundException("Customer name = " + orderDto.getCustomerName() + " not found"));

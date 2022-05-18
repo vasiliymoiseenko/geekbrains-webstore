@@ -47,8 +47,8 @@ public class CustomerController {
 
   @PutMapping
   public CustomerDto updateCustomer(@RequestBody CustomerDto customerDto) {
-    Customer customer = new Customer();
-    customer.setId(customerDto.getId());
+    Long id = customerDto.getId();
+    Customer customer = customerService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer id = " + id + " not found"));
     customer.setName(customerDto.getName());
     customerService.save(customer);
     return new CustomerDto(customer);
