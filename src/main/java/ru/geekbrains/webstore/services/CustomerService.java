@@ -4,6 +4,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.repositories.CustomerRepository;
@@ -16,7 +17,7 @@ public class CustomerService implements ru.geekbrains.webstore.services.Service<
 
   @Override
   public Page<Customer> findAll(int pageIndex, int pageSize) {
-    return customerRepository.findAll(PageRequest.of(pageIndex, pageSize));
+    return customerRepository.findAll(PageRequest.of(pageIndex, pageSize, Sort.by("id")));
   }
 
   @Override
