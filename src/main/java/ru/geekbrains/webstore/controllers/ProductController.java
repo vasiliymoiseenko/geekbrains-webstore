@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.dtos.ProductDto;
 import ru.geekbrains.webstore.entities.Product;
+import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
 import ru.geekbrains.webstore.services.ProductService;
 
 @RestController
@@ -25,7 +26,7 @@ public class ProductController {
   private ProductService productService;
 
   @GetMapping
-  public Page<ProductDto> findAll(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+  public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
     if (pageIndex < 1) {
       pageIndex = 1;
     }
@@ -33,12 +34,13 @@ public class ProductController {
   }
 
   @GetMapping("/{id}")
-  public ProductDto findById(@PathVariable Long id) {
-    return new ProductDto(productService.findById(id).get());
+  public ProductDto getProductById(@PathVariable Long id) {
+    Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found"));
+    return new ProductDto(product);
   }
 
   @PostMapping
-  public ProductDto save(@RequestBody ProductDto productDto) {
+  public ProductDto addProduct(@RequestBody ProductDto productDto) {
     Product product = new Product();
     product.setTitle(productDto.getTitle());
     product.setPrice(productDto.getPrice());
@@ -47,7 +49,7 @@ public class ProductController {
   }
 
   @PutMapping
-  public ProductDto update(@RequestBody ProductDto productDto) {
+  public ProductDto updateProduct(@RequestBody ProductDto productDto) {
     Product product = new Product();
     product.setId(productDto.getId());
     product.setTitle(productDto.getTitle());
@@ -57,12 +59,12 @@ public class ProductController {
   }
 
   @DeleteMapping("/{id}")
-  public void delete(@PathVariable Long id) {
+  public void deleteProduct(@PathVariable Long id) {
     productService.deleteById(id);
   }
 
   @GetMapping("/filter")
-  public List<ProductDto> filter(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice) {
+  public List<ProductDto> filterProducts(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice) {
     return productService.findAllByPrice(minPrice, maxPrice).stream().map(ProductDto::new).collect(Collectors.toList());
   }
 }

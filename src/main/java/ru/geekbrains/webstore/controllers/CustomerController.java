@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.dtos.CustomerDto;
 import ru.geekbrains.webstore.entities.Customer;
+import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
 import ru.geekbrains.webstore.services.CustomerService;
 
 @RestController
@@ -23,7 +24,7 @@ public class CustomerController {
   private CustomerService customerService;
 
   @GetMapping
-  public Page<CustomerDto> findAll(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+  public Page<CustomerDto> getAllCustomers(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
     if (pageIndex < 1) {
       pageIndex = 1;
     }
@@ -31,12 +32,13 @@ public class CustomerController {
   }
 
   @GetMapping("/{id}")
-  public CustomerDto findById(@PathVariable Long id) {
-    return new CustomerDto(customerService.findById(id).get());
+  public CustomerDto GetCustomerById(@PathVariable Long id) {
+    Customer customer = customerService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer id = " + id + " not found"));
+    return new CustomerDto(customer);
   }
 
   @PostMapping
-  public CustomerDto save(@RequestBody CustomerDto customerDto) {
+  public CustomerDto addCustomer(@RequestBody CustomerDto customerDto) {
     Customer customer = new Customer();
     customer.setName(customerDto.getName());
     customerService.save(customer);
@@ -44,7 +46,7 @@ public class CustomerController {
   }
 
   @PutMapping
-  public CustomerDto update(@RequestBody CustomerDto customerDto) {
+  public CustomerDto updateCustomer(@RequestBody CustomerDto customerDto) {
     Customer customer = new Customer();
     customer.setId(customerDto.getId());
     customer.setName(customerDto.getName());
@@ -53,7 +55,7 @@ public class CustomerController {
   }
 
   @DeleteMapping("/{id}")
-  public void delete(@PathVariable Long id) {
+  public void deleteCustomer(@PathVariable Long id) {
     customerService.deleteById(id);
   }
 }

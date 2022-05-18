@@ -15,6 +15,7 @@ import ru.geekbrains.webstore.dtos.OrderDto;
 import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.entities.Order;
 import ru.geekbrains.webstore.entities.Product;
+import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
 import ru.geekbrains.webstore.services.CustomerService;
 import ru.geekbrains.webstore.services.OrderService;
 import ru.geekbrains.webstore.services.ProductService;
@@ -29,7 +30,7 @@ public class OrderController {
   private ProductService productService;
 
   @GetMapping
-  public Page<OrderDto> findAll(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+  public Page<OrderDto> getAllOrders(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
     if (pageIndex < 1) {
       pageIndex = 1;
     }
@@ -37,37 +38,42 @@ public class OrderController {
   }
 
   @GetMapping("/{id}")
-  public OrderDto findById(@PathVariable Long id) {
-    return new OrderDto(orderService.findById(id).get());
+  public OrderDto getOrderById(@PathVariable Long id) {
+    Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + " not found"));
+    return new OrderDto(order);
   }
 
   @PostMapping
-  public OrderDto save(@RequestBody OrderDto orderDto) {
+  public OrderDto addOrder(@RequestBody OrderDto orderDto) {
     Order order = new Order();
     order.setPurchasePrise(orderDto.getPurchasePrise());
-    Customer customer = customerService.findByName(orderDto.getCustomerName()).get();
+    Customer customer = customerService.findByName(orderDto.getCustomerName())
+        .orElseThrow(() -> new ResourceNotFoundException("Customer name = " + orderDto.getCustomerName() + " not found"));
     order.setCustomer(customer);
-    Product product = productService.findByTitle(orderDto.getProductTitle()).get();
+    Product product = productService.findByTitle(orderDto.getProductTitle())
+        .orElseThrow(() -> new ResourceNotFoundException("Product title = " + orderDto.getProductTitle() + " not found"));
     order.setProduct(product);
     orderService.save(order);
     return new OrderDto(order);
   }
 
   @PutMapping
-  public OrderDto update(@RequestBody OrderDto orderDto) {
+  public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
     Order order = new Order();
     order.setId(orderDto.getId());
     order.setPurchasePrise(orderDto.getPurchasePrise());
-    Customer customer = customerService.findByName(orderDto.getCustomerName()).get();
+    Customer customer = customerService.findByName(orderDto.getCustomerName())
+        .orElseThrow(() -> new ResourceNotFoundException("Customer name = " + orderDto.getCustomerName() + " not found"));
     order.setCustomer(customer);
-    Product product = productService.findByTitle(orderDto.getProductTitle()).get();
+    Product product = productService.findByTitle(orderDto.getProductTitle())
+        .orElseThrow(() -> new ResourceNotFoundException("Product title = " + orderDto.getProductTitle() + " not found"));
     order.setProduct(product);
     orderService.save(order);
     return new OrderDto(order);
   }
 
   @DeleteMapping("/{id}")
-  public void delete(@PathVariable Long id) {
+  public void deleteOrder(@PathVariable Long id) {
     orderService.deleteById(id);
   }
 }
