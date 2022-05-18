@@ -58,18 +58,8 @@ public class OrderController {
   }
 
   @PutMapping
-  public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-    Long id = orderDto.getId();
-    Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + " not found"));
-    order.setPurchasePrise(orderDto.getPurchasePrise());
-    Customer customer = customerService.findByName(orderDto.getCustomerName())
-        .orElseThrow(() -> new ResourceNotFoundException("Customer name = " + orderDto.getCustomerName() + " not found"));
-    order.setCustomer(customer);
-    Product product = productService.findByTitle(orderDto.getProductTitle())
-        .orElseThrow(() -> new ResourceNotFoundException("Product title = " + orderDto.getProductTitle() + " not found"));
-    order.setProduct(product);
-    orderService.save(order);
-    return new OrderDto(order);
+  public void updateOrder(@RequestBody OrderDto orderDto) {
+    orderService.updateOrderFromDto(orderDto);
   }
 
   @DeleteMapping("/{id}")
