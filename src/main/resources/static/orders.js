@@ -33,7 +33,7 @@ angular.module('webstore-front', []).controller('ordersController',
             $scope.loadOrders(currentPageIndex);
             $scope.new_order = null;
           }, function failureCallback(response) {
-            alert(response.data.message);
+            alert(response.data.messages);
           });
         } else {
           $http.put(contextPath, $scope.new_order)
@@ -41,7 +41,7 @@ angular.module('webstore-front', []).controller('ordersController',
             $scope.loadOrders(currentPageIndex);
             $scope.new_order = null;
           }, function failureCallback(response) {
-            alert(response.data.message);
+            alert(response.data.messages);
           });
         }
       }

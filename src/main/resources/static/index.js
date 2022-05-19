@@ -10,18 +10,18 @@
       templateUrl: 'welcome/welcome.html',
       controller: 'welcomeController'
     })
-    .when('/webstore', {
+    .when('/products', {
       templateUrl: 'products/products.html',
       controller: 'productsController'
     })
     .when('/edit_product/:productId', {
-      templateUrl: 'edit_product/edit_product.html',
-      controller: 'editProductController'
-    })/*
-    .when('/create_product', {
-        templateUrl: 'create_product/create_product.html',
-        controller: 'createProductController'
-    })*/
+      templateUrl: 'update_product/update_product.html',
+      controller: 'updateProductController'
+    })
+    .when('/add_product', {
+      templateUrl: 'add_product/add_product.html',
+      controller: 'addProductController'
+    })
     .otherwise({
       redirectTo: '/'
     });

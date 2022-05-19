@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.dtos.ProductDto;
 import ru.geekbrains.webstore.entities.Product;
+import ru.geekbrains.webstore.exceptions.DataValidationException;
 import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
 import ru.geekbrains.webstore.services.ProductService;
 
@@ -40,7 +44,12 @@ public class ProductController {
   }
 
   @PostMapping
-  public ProductDto addProduct(@RequestBody ProductDto productDto) {
+  public ProductDto addProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new DataValidationException(bindingResult.getAllErrors().stream()
+          .map(ObjectError::getDefaultMessage)
+          .collect(Collectors.toList()));
+    }
     Product product = new Product();
     product.setTitle(productDto.getTitle());
     product.setPrice(productDto.getPrice());
