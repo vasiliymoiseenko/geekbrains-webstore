@@ -1,5 +1,5 @@
-angular.module('webstore-front', []).controller('productsController',
-    function ($scope, $http) {
+angular.module('webstore-front').controller('productsController',
+    function ($scope, $http, $location) {
       const contextPath = 'http://localhost:8189/webstore/api/v1/products/';
       let currentPageIndex = 1;
 
@@ -26,24 +26,9 @@ angular.module('webstore-front', []).controller('productsController',
         });
       };
 
-      $scope.saveOrUpdateProduct = function () {
-        if ($scope.new_product.id == null) {
-          $http.post(contextPath, $scope.new_product)
-          .then(function successCallback(response) {
-            $scope.loadProducts(currentPageIndex);
-            $scope.new_product = null;
-          }, function failureCallback(response) {
-            alert(response.data.message);
-          });
-        } else {
-          $http.put(contextPath, $scope.new_product)
-          .then(function successCallback(response) {
-            $scope.loadProducts(currentPageIndex);
-            $scope.new_product = null;
-          }, function failureCallback(response) {
-            alert(response.data.message);
-          });
-        }
+      $scope.goToEditPage = function (productId) {
+        console.log("product id = " + productId);
+        $location.path('/edit_product/' + productId);
       }
 
       $scope.generatePagesIndexes = function (startPage, endPage) {
