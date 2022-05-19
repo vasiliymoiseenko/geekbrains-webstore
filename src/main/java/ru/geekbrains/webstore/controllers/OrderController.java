@@ -1,7 +1,11 @@
 package ru.geekbrains.webstore.controllers;
 
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +19,7 @@ import ru.geekbrains.webstore.dtos.OrderDto;
 import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.entities.Order;
 import ru.geekbrains.webstore.entities.Product;
+import ru.geekbrains.webstore.exceptions.DataValidationException;
 import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
 import ru.geekbrains.webstore.services.CustomerService;
 import ru.geekbrains.webstore.services.OrderService;
@@ -44,21 +49,36 @@ public class OrderController {
   }
 
   @PostMapping
-  public OrderDto addOrder(@RequestBody OrderDto orderDto) {
+  public OrderDto addOrder(@RequestBody @Validated OrderDto orderDto, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new DataValidationException(bindingResult.getAllErrors().stream()
+          .map(ObjectError::getDefaultMessage)
+          .collect(Collectors.toList()));
+    }
+
     Order order = new Order();
     order.setPurchasePrise(orderDto.getPurchasePrise());
+
     Customer customer = customerService.findByName(orderDto.getCustomerName())
         .orElseThrow(() -> new ResourceNotFoundException("Customer name = " + orderDto.getCustomerName() + " not found"));
     order.setCustomer(customer);
+
     Product product = productService.findByTitle(orderDto.getProductTitle())
         .orElseThrow(() -> new ResourceNotFoundException("Product title = " + orderDto.getProductTitle() + " not found"));
     order.setProduct(product);
+
     orderService.save(order);
     return new OrderDto(order);
   }
 
   @PutMapping
-  public void updateOrder(@RequestBody OrderDto orderDto) {
+  public void updateOrder(@RequestBody @Validated OrderDto orderDto, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new DataValidationException(bindingResult.getAllErrors().stream()
+          .map(ObjectError::getDefaultMessage)
+          .collect(Collectors.toList()));
+    }
+    
     orderService.updateOrderFromDto(orderDto);
   }
 

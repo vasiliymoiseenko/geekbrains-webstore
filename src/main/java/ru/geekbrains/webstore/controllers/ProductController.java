@@ -50,6 +50,7 @@ public class ProductController {
           .map(ObjectError::getDefaultMessage)
           .collect(Collectors.toList()));
     }
+
     Product product = new Product();
     product.setTitle(productDto.getTitle());
     product.setPrice(productDto.getPrice());
@@ -58,7 +59,13 @@ public class ProductController {
   }
 
   @PutMapping
-  public ProductDto updateProduct(@RequestBody ProductDto productDto) {
+  public ProductDto updateProduct(@RequestBody @Validated ProductDto productDto, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new DataValidationException(bindingResult.getAllErrors().stream()
+          .map(ObjectError::getDefaultMessage)
+          .collect(Collectors.toList()));
+    }
+    
     Long id = productDto.getId();
     Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found"));
     product.setTitle(productDto.getTitle());

@@ -1,7 +1,11 @@
 package ru.geekbrains.webstore.controllers;
 
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.dtos.CustomerDto;
 import ru.geekbrains.webstore.entities.Customer;
+import ru.geekbrains.webstore.exceptions.DataValidationException;
 import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
 import ru.geekbrains.webstore.services.CustomerService;
 
@@ -38,7 +43,13 @@ public class CustomerController {
   }
 
   @PostMapping
-  public CustomerDto addCustomer(@RequestBody CustomerDto customerDto) {
+  public CustomerDto addCustomer(@RequestBody @Validated CustomerDto customerDto, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new DataValidationException(bindingResult.getAllErrors().stream()
+          .map(ObjectError::getDefaultMessage)
+          .collect(Collectors.toList()));
+    }
+
     Customer customer = new Customer();
     customer.setName(customerDto.getName());
     customerService.save(customer);
@@ -46,7 +57,13 @@ public class CustomerController {
   }
 
   @PutMapping
-  public CustomerDto updateCustomer(@RequestBody CustomerDto customerDto) {
+  public CustomerDto updateCustomer(@RequestBody @Validated CustomerDto customerDto, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new DataValidationException(bindingResult.getAllErrors().stream()
+          .map(ObjectError::getDefaultMessage)
+          .collect(Collectors.toList()));
+    }
+    
     Long id = customerDto.getId();
     Customer customer = customerService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer id = " + id + " not found"));
     customer.setName(customerDto.getName());

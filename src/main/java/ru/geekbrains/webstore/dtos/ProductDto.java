@@ -17,7 +17,7 @@ public class ProductDto {
   @Length(min = 3, max = 255, message = "Title length must be 3-255 characters")
   private String title;
 
-  @NotNull
+  @NotNull(message = "Product must have a price")
   @Min(value = 1, message = "Price must be greater than 0")
   private Double price;
 
