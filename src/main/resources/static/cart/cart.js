@@ -15,8 +15,10 @@ angular.module('webstore-front').controller('cartController',
 
       $scope.removeFromCart = function (productId) {
         $http.get(contextPath + 'remove/' + productId)
-        .then(function (response) {
-          $scope.loadCart();
+        .then(function successCallback(response) {
+          $scope.loadCart()
+        }, function failureCallback(response) {
+          alert(response.data.messages);
         });
       };
 
