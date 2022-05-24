@@ -31,6 +31,16 @@ angular.module('webstore-front').controller('productsController',
         $location.path('/edit_product/' + productId);
       }
 
+      $scope.addToCart = function (productId) {
+        $http.get('http://localhost:8189/webstore/api/v1/cart/add/' + productId)
+        .then(function successCallback(response) {
+          alert('Product added to cart successfully');
+        }, function failureCallback(response) {
+          alert(response.data.messages);
+        });
+
+      }
+
       $scope.generatePagesIndexes = function (startPage, endPage) {
         let arr = [];
         for (let i = startPage; i < endPage + 1; i++) {
