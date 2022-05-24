@@ -8,7 +8,8 @@ angular.module('webstore-front').controller('cartController',
           method: 'GET',
         }).then(function (response) {
           console.log(response);
-          $scope.cartPage = response.data.productDtoList;
+          $scope.productList = response.data.productDtoList;
+          $scope.totalPrice = response.data.totalPrice;
         });
       };
 

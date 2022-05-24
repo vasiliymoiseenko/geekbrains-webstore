@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="p in cartPage.content">
+    <tr ng-repeat="p in productList">
       <td>{{p.id}}</td>
       <td>{{p.title}}</td>
       <td>{{p.price}}</td>
@@ -22,4 +22,6 @@
     </tbody>
   </table>
 
+  <p></p>
+  <h2>Total price {{totalPrice}}</h2>
 </div>
