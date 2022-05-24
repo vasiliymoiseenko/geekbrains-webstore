@@ -1,0 +1,27 @@
+<div>
+  <p></p>
+  <h1>Cart</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Price</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="p in productList">
+      <td>{{p.id}}</td>
+      <td>{{p.title}}</td>
+      <td>{{p.price}}</td>
+      <td>
+        <button class="btn btn-primary" ng-click="removeFromCart(p.id)">Remove</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p></p>
+  <h2>Total price {{totalPrice}}</h2>
+</div>
