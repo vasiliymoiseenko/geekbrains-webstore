@@ -15,64 +15,64 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.geekbrains.webstore.dtos.CustomerDto;
-import ru.geekbrains.webstore.entities.Customer;
+import ru.geekbrains.webstore.dtos.UserDto;
+import ru.geekbrains.webstore.entities.User;
 import ru.geekbrains.webstore.exceptions.DataValidationException;
 import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
-import ru.geekbrains.webstore.services.CustomerService;
+import ru.geekbrains.webstore.services.UserService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/customers")
-public class CustomerController {
+@RequestMapping("/api/v1/users")
+public class UserController {
 
-  private CustomerService customerService;
+  private UserService userService;
 
   @GetMapping
-  public Page<CustomerDto> getAllCustomers(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+  public Page<UserDto> getAllUsers(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
     if (pageIndex < 1) {
       pageIndex = 1;
     }
-    return customerService.findAll(pageIndex - 1, 10).map(CustomerDto::new);
+    return userService.findAll(pageIndex - 1, 10).map(UserDto::new);
   }
 
   @GetMapping("/{id}")
-  public CustomerDto GetCustomerById(@PathVariable Long id) {
-    Customer customer = customerService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer id = " + id + " not found"));
-    return new CustomerDto(customer);
+  public UserDto GetUserById(@PathVariable Long id) {
+    User user = userService.findById(id).orElseThrow(() -> new ResourceNotFoundException("User id = " + id + " not found"));
+    return new UserDto(user);
   }
 
   @PostMapping
-  public CustomerDto addCustomer(@RequestBody @Validated CustomerDto customerDto, BindingResult bindingResult) {
+  public UserDto addUser(@RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       throw new DataValidationException(bindingResult.getAllErrors().stream()
           .map(ObjectError::getDefaultMessage)
           .collect(Collectors.toList()));
     }
 
-    Customer customer = new Customer();
-    customer.setName(customerDto.getName());
-    customerService.save(customer);
-    return new CustomerDto(customer);
+    User user = new User();
+    user.setName(userDto.getName());
+    userService.save(user);
+    return new UserDto(user);
   }
 
   @PutMapping
-  public CustomerDto updateCustomer(@RequestBody @Validated CustomerDto customerDto, BindingResult bindingResult) {
+  public UserDto updateUser(@RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       throw new DataValidationException(bindingResult.getAllErrors().stream()
           .map(ObjectError::getDefaultMessage)
           .collect(Collectors.toList()));
     }
-    
-    Long id = customerDto.getId();
-    Customer customer = customerService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer id = " + id + " not found"));
-    customer.setName(customerDto.getName());
-    customerService.save(customer);
-    return new CustomerDto(customer);
+
+    Long id = userDto.getId();
+    User user = userService.findById(id).orElseThrow(() -> new ResourceNotFoundException("User id = " + id + " not found"));
+    user.setName(userDto.getName());
+    userService.save(user);
+    return new UserDto(user);
   }
 
   @DeleteMapping("/{id}")
-  public void deleteCustomer(@PathVariable Long id) {
-    customerService.deleteById(id);
+  public void deleteUser(@PathVariable Long id) {
+    userService.deleteById(id);
   }
 }

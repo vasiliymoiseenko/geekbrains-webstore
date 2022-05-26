@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.dtos.OrderDto;
-import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.entities.Order;
 import ru.geekbrains.webstore.entities.Product;
+import ru.geekbrains.webstore.entities.User;
 import ru.geekbrains.webstore.exceptions.DataValidationException;
 import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
-import ru.geekbrains.webstore.services.CustomerService;
 import ru.geekbrains.webstore.services.OrderService;
 import ru.geekbrains.webstore.services.ProductService;
+import ru.geekbrains.webstore.services.UserService;
 
 @RestController
 @AllArgsConstructor
@@ -31,7 +31,7 @@ import ru.geekbrains.webstore.services.ProductService;
 public class OrderController {
 
   private OrderService orderService;
-  private CustomerService customerService;
+  private UserService userService;
   private ProductService productService;
 
   @GetMapping
@@ -59,9 +59,9 @@ public class OrderController {
     Order order = new Order();
     order.setPurchasePrise(orderDto.getPurchasePrise());
 
-    Customer customer = customerService.findByName(orderDto.getCustomerName())
-        .orElseThrow(() -> new ResourceNotFoundException("Customer name = " + orderDto.getCustomerName() + " not found"));
-    order.setCustomer(customer);
+    User user = userService.findByName(orderDto.getUserName())
+        .orElseThrow(() -> new ResourceNotFoundException("User name = " + orderDto.getUserName() + " not found"));
+    order.setUser(user);
 
     Product product = productService.findByTitle(orderDto.getProductTitle())
         .orElseThrow(() -> new ResourceNotFoundException("Product title = " + orderDto.getProductTitle() + " not found"));
@@ -78,7 +78,7 @@ public class OrderController {
           .map(ObjectError::getDefaultMessage)
           .collect(Collectors.toList()));
     }
-    
+
     orderService.updateOrderFromDto(orderDto);
   }
 

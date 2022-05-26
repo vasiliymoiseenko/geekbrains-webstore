@@ -28,14 +28,14 @@ VALUES ('TV', 1000.0),
        ('Fridge', 1000.0),
        ('Dishwasher', 300.00);
 
-DROP TABLE IF EXISTS public.customers CASCADE;
-CREATE TABLE IF NOT EXISTS public.customers
+DROP TABLE IF EXISTS public.users CASCADE;
+CREATE TABLE IF NOT EXISTS public.users
 (
     id   BIGSERIAL              NOT NULL,
     name character varying(255) NOT NULL,
-    CONSTRAINT customers_pkey PRIMARY KEY (id)
+    CONSTRAINT users_pkey PRIMARY KEY (id)
 );
-INSERT INTO public.customers (name)
+INSERT INTO public.users (name)
 VALUES ('Иванов И.И.'),
        ('Петров П.П.'),
        ('Сидоров С.С.');
@@ -45,13 +45,13 @@ CREATE TABLE IF NOT EXISTS public.orders
 (
     id             BIGSERIAL        NOT NULL,
     purchase_price double precision NOT NULL,
-    customer_id    bigint           NOT NULL,
+    user_id        bigint           NOT NULL,
     product_id     bigint           NOT NULL,
     CONSTRAINT orders_pkey PRIMARY KEY (id),
-    CONSTRAINT customer_fkey FOREIGN KEY (customer_id) REFERENCES public.customers (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT user_fkey FOREIGN KEY (user_id) REFERENCES public.users (id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT product_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
-INSERT INTO public.orders (purchase_price, customer_id, product_id)
+INSERT INTO public.orders (purchase_price, user_id, product_id)
 VALUES (100, 1, 1),
        (110, 1, 1),
        (120, 1, 2),

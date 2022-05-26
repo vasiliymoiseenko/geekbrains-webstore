@@ -1,9 +1,9 @@
-angular.module('webstore-front', []).controller('customersController',
+angular.module('webstore-front', []).controller('usersController',
     function ($scope, $http) {
-      const contextPath = 'http://localhost:8189/webstore/api/v1/customers/';
+      const contextPath = 'http://localhost:8189/webstore/api/v1/users/';
       let currentPageIndex = 1;
 
-      $scope.loadCustomers = function (pageIndex) {
+      $scope.loadUsers = function (pageIndex) {
         currentPageIndex = pageIndex;
         $http({
           url: contextPath,
@@ -13,33 +13,33 @@ angular.module('webstore-front', []).controller('customersController',
           }
         }).then(function (response) {
           console.log(response);
-          $scope.customersPage = response.data;
+          $scope.usersPage = response.data;
           $scope.paginationArray = $scope.generatePagesIndexes(1,
-              $scope.customersage.totalPages);
+              $scope.usersPage.totalPages);
         });
       };
 
-      $scope.deleteCustomer = function (customer) {
-        $http.delete(contextPath + customer.id)
+      $scope.deleteUser = function (user) {
+        $http.delete(contextPath + user.id)
         .then(function (response) {
-          $scope.loadCustomers(currentPageIndex);
+          $scope.loadUsers(currentPageIndex);
         });
       };
 
-      $scope.saveOrUpdateCustomer = function () {
-        if ($scope.new_customer.id == null) {
-          $http.post(contextPath, $scope.new_customer)
+      $scope.saveOrUpdateUser = function () {
+        if ($scope.new_user.id == null) {
+          $http.post(contextPath, $scope.new_user)
           .then(function successCallback(response) {
-            $scope.loadCustomers(currentPageIndex);
-            $scope.new_customer = null;
+            $scope.loadUsers(currentPageIndex);
+            $scope.new_user = null;
           }, function failureCallback(response) {
             alert(response.data.messages);
           });
         } else {
-          $http.put(contextPath, $scope.new_customer)
+          $http.put(contextPath, $scope.new_user)
           .then(function successCallback(response) {
-            $scope.loadCustomers(currentPageIndex);
-            $scope.new_customer = null;
+            $scope.loadUsers(currentPageIndex);
+            $scope.new_user = null;
           }, function failureCallback(response) {
             alert(response.data.messages);
           });
@@ -54,5 +54,5 @@ angular.module('webstore-front', []).controller('customersController',
         return arr;
       }
 
-      $scope.loadCustomers(1);
+      $scope.loadUsers(1);
     });

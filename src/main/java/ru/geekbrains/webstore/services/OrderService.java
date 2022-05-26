@@ -8,9 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.dtos.OrderDto;
-import ru.geekbrains.webstore.entities.Customer;
 import ru.geekbrains.webstore.entities.Order;
 import ru.geekbrains.webstore.entities.Product;
+import ru.geekbrains.webstore.entities.User;
 import ru.geekbrains.webstore.exceptions.ResourceNotFoundException;
 import ru.geekbrains.webstore.repositories.OrderRepository;
 
@@ -19,7 +19,7 @@ import ru.geekbrains.webstore.repositories.OrderRepository;
 public class OrderService implements ru.geekbrains.webstore.services.Service<Order> {
 
   private OrderRepository orderRepository;
-  private CustomerService customerService;
+  private UserService userService;
   private ProductService productService;
 
   @Override
@@ -48,10 +48,10 @@ public class OrderService implements ru.geekbrains.webstore.services.Service<Ord
     Order order = findById(id).orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + " not found"));
     order.setPurchasePrise(orderDto.getPurchasePrise());
 
-    if (!order.getCustomer().getName().equals(orderDto.getCustomerName())) {
-      Customer customer = customerService.findByName(orderDto.getCustomerName())
-          .orElseThrow(() -> new ResourceNotFoundException("Customer name = " + orderDto.getCustomerName() + " not found"));
-      order.setCustomer(customer);
+    if (!order.getUser().getName().equals(orderDto.getUserName())) {
+      User user = userService.findByName(orderDto.getUserName())
+          .orElseThrow(() -> new ResourceNotFoundException("User name = " + orderDto.getUserName() + " not found"));
+      order.setUser(user);
     }
 
     if (!order.getProduct().getTitle().equals(orderDto.getProductTitle())) {

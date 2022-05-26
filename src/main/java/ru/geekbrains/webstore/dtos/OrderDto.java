@@ -16,8 +16,8 @@ public class OrderDto {
   @Min(value = 1, message = "Purchase price must be greater than 0")
   private Double purchasePrise;
 
-  @NotNull(message = "Customer must have a name")
-  private String customerName;
+  @NotNull(message = "User must have a name")
+  private String userName;
 
   @NotNull(message = "Product must have a title")
   private String productTitle;
@@ -25,7 +25,7 @@ public class OrderDto {
   public OrderDto(Order order) {
     this.id = order.getId();
     this.purchasePrise = order.getPurchasePrise();
-    this.customerName = order.getCustomer().getName();
+    this.userName = order.getUser().getName();
     this.productTitle = order.getProduct().getTitle();
   }
 }

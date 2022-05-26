@@ -21,7 +21,7 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Purchase price</th>
-      <th scope="col">Customer</th>
+      <th scope="col">User</th>
       <th scope="col">Product</th>
       <th></th>
     </tr>
@@ -30,7 +30,7 @@
     <tr ng-repeat="o in ordersPage.content">
       <td>{{o.id}}</td>
       <td>{{o.purchasePrise}}</td>
-      <td>{{o.customerName}}</td>
+      <td>{{o.userName}}</td>
       <td>{{o.productTitle}}</td>
       <td>
         <button class="btn btn-primary" ng-click="deleteOrder(o)">Delete</button>
@@ -54,7 +54,7 @@
     <p></p>
     <input class="form-control" type="number" placeholder="Purchase price" ng-model="new_order.purchasePrise">
     <p></p>
-    <input class="form-control" type="text" placeholder="Customer name" ng-model="new_order.customerName">
+    <input class="form-control" type="text" placeholder="User name" ng-model="new_order.userName">
     <p></p>
     <input class="form-control" type="text" placeholder="Product title" ng-model="new_order.productTitle">
     <p></p>
