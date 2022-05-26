@@ -51,7 +51,7 @@ public class UserController {
     }
 
     User user = new User();
-    user.setName(userDto.getName());
+    user.setUsername(userDto.getUsername());
     userService.save(user);
     return new UserDto(user);
   }
@@ -66,7 +66,7 @@ public class UserController {
 
     Long id = userDto.getId();
     User user = userService.findById(id).orElseThrow(() -> new ResourceNotFoundException("User id = " + id + " not found"));
-    user.setName(userDto.getName());
+    user.setUsername(userDto.getUsername());
     userService.save(user);
     return new UserDto(user);
   }
