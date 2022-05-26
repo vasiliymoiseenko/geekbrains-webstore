@@ -26,7 +26,7 @@ public class Order {
   private Long id;
 
   @Column(name = "purchase_price")
-  private Double purchasePrise;
+  private Long purchasePrise;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")

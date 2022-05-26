@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS public.products CASCADE;
 CREATE TABLE IF NOT EXISTS public.products
 (
     id    BIGSERIAL              NOT NULL,
-    price double precision       NOT NULL,
+    price bigint                 NOT NULL,
     title character varying(255) NOT NULL,
     CONSTRAINT products_pkey PRIMARY KEY (id)
 );
@@ -43,10 +43,10 @@ VALUES ('Иванов И.И.'),
 DROP TABLE IF EXISTS public.orders CASCADE;
 CREATE TABLE IF NOT EXISTS public.orders
 (
-    id             BIGSERIAL        NOT NULL,
-    purchase_price double precision NOT NULL,
-    user_id        bigint           NOT NULL,
-    product_id     bigint           NOT NULL,
+    id             BIGSERIAL NOT NULL,
+    purchase_price bigint    NOT NULL,
+    user_id        bigint    NOT NULL,
+    product_id     bigint    NOT NULL,
     CONSTRAINT orders_pkey PRIMARY KEY (id),
     CONSTRAINT user_fkey FOREIGN KEY (user_id) REFERENCES public.users (id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT product_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON UPDATE CASCADE ON DELETE CASCADE

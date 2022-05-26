@@ -31,7 +31,7 @@ public class Product {
   private String title;
 
   @Column(name = "price")
-  private Double price;
+  private Long price;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Order> orders;

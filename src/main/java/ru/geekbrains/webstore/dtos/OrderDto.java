@@ -14,7 +14,7 @@ public class OrderDto {
 
   @NotNull(message = "Order must have a purchase price")
   @Min(value = 1, message = "Purchase price must be greater than 0")
-  private Double purchasePrise;
+  private Long purchasePrise;
 
   @NotNull(message = "User must have a name")
   private String userName;

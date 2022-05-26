@@ -19,7 +19,7 @@ public class ProductDto {
 
   @NotNull(message = "Product must have a price")
   @Min(value = 1, message = "Price must be greater than 0")
-  private Double price;
+  private Long price;
 
   public ProductDto(Product product) {
     this.id = product.getId();
