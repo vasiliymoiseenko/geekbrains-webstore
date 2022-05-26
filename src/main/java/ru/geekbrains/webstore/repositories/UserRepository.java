@@ -8,5 +8,5 @@ import ru.geekbrains.webstore.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-  Optional<User> findUserByName(String name);
+  Optional<User> findUserByUsername(String name);
 }

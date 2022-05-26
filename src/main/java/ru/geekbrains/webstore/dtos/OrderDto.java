@@ -17,7 +17,7 @@ public class OrderDto {
   private Long purchasePrise;
 
   @NotNull(message = "User must have a name")
-  private String userName;
+  private String username;
 
   @NotNull(message = "Product must have a title")
   private String productTitle;
@@ -25,7 +25,7 @@ public class OrderDto {
   public OrderDto(Order order) {
     this.id = order.getId();
     this.purchasePrise = order.getPurchasePrise();
-    this.userName = order.getUser().getName();
+    this.username = order.getUser().getUsername();
     this.productTitle = order.getProduct().getTitle();
   }
 }

@@ -48,9 +48,9 @@ public class OrderService implements ru.geekbrains.webstore.services.Service<Ord
     Order order = findById(id).orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + " not found"));
     order.setPurchasePrise(orderDto.getPurchasePrise());
 
-    if (!order.getUser().getName().equals(orderDto.getUserName())) {
-      User user = userService.findByName(orderDto.getUserName())
-          .orElseThrow(() -> new ResourceNotFoundException("User name = " + orderDto.getUserName() + " not found"));
+    if (!order.getUser().getUsername().equals(orderDto.getUsername())) {
+      User user = userService.findByUsername(orderDto.getUsername())
+          .orElseThrow(() -> new ResourceNotFoundException("User name = " + orderDto.getUsername() + " not found"));
       order.setUser(user);
     }
 

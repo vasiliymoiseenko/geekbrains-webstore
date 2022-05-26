@@ -59,8 +59,8 @@ public class OrderController {
     Order order = new Order();
     order.setPurchasePrise(orderDto.getPurchasePrise());
 
-    User user = userService.findByName(orderDto.getUserName())
-        .orElseThrow(() -> new ResourceNotFoundException("User name = " + orderDto.getUserName() + " not found"));
+    User user = userService.findByUsername(orderDto.getUsername())
+        .orElseThrow(() -> new ResourceNotFoundException("Username = " + orderDto.getUsername() + " not found"));
     order.setUser(user);
 
     Product product = productService.findByTitle(orderDto.getProductTitle())

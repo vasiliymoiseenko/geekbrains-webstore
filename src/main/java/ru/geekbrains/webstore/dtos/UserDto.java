@@ -14,10 +14,10 @@ public class UserDto {
 
   @NotNull(message = "User must have a name")
   @Length(min = 3, max = 255, message = "Name length must be 3-255 characters")
-  private String name;
+  private String username;
 
   public UserDto(User user) {
     this.id = user.getId();
-    this.name = user.getName();
+    this.username = user.getUsername();
   }
 }

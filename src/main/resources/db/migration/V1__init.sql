@@ -31,14 +31,44 @@ VALUES ('TV', 1000.0),
 DROP TABLE IF EXISTS public.users CASCADE;
 CREATE TABLE IF NOT EXISTS public.users
 (
-    id   BIGSERIAL              NOT NULL,
-    name character varying(255) NOT NULL,
+    id       BIGSERIAL              NOT NULL,
+    username character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id)
 );
-INSERT INTO public.users (name)
-VALUES ('Иванов И.И.'),
-       ('Петров П.П.'),
-       ('Сидоров С.С.');
+INSERT INTO public.users (username, password)
+VALUES ('User1', '$2y$10$VZCgR1yw9TenUaOkNtnk3eboZCF37OJ/mXIzM0AUQk9PcFsu1vfMi'),
+       ('User2', '$2y$10$fpeZ.gpe9TRlba6fMbS79OaQZW3qPUY4wK24Be3yOBTdUtIYa0w6e'),
+       ('User3', '$2y$10$Zbj34uxmdU9uzleAIZM53e1O0K4wmPmYuDgh5CJ309grnCEwK7lV2'),
+       ('User4', '$2y$10$2SBmvlwAWBcFvEDjuiXW5uFKxnoSUc7oo4xTjyOa5U79p.642Kiv6');
+
+DROP TABLE IF EXISTS public.roles CASCADE;
+CREATE TABLE IF NOT EXISTS public.roles
+(
+    id   BIGSERIAL              NOT NULL,
+    name character varying(255) NOT NULL,
+    CONSTRAINT roles_pkey PRIMARY KEY (id)
+);
+INSERT INTO public.roles (name)
+VALUES ('ROLE_USER'),
+       ('ROLE_MANAGER'),
+       ('ROLE_ADMIN'),
+       ('ROLE_SUPERADMIN');
+
+DROP TABLE IF EXISTS public.users_roles CASCADE;
+CREATE TABLE IF NOT EXISTS public.users_roles
+(
+    user_id bigint NOT NULL,
+    role_id bigint NOT NULL,
+    CONSTRAINT users_roles_pkey PRIMARY KEY (user_id, role_id),
+    CONSTRAINT role_fkey FOREIGN KEY (role_id) REFERENCES public.roles (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT user_fkey FOREIGN KEY (user_id) REFERENCES public.users (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+INSERT INTO public.users_roles (user_id, role_id)
+VALUES (1, 1),
+       (2, 2),
+       (3, 3),
+       (4, 4);
 
 DROP TABLE IF EXISTS public.orders CASCADE;
 CREATE TABLE IF NOT EXISTS public.orders
