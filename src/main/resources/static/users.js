@@ -27,6 +27,7 @@ angular.module('webstore-front', []).controller('usersController',
       };
 
       $scope.saveOrUpdateUser = function () {
+        console.log($scope.new_user);
         if ($scope.new_user.id == null) {
           $http.post(contextPath, $scope.new_user)
           .then(function successCallback(response) {
