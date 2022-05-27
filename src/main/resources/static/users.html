@@ -50,7 +50,9 @@
   <form novalidate ng-submit="saveOrUpdateUser()">
     <input class="form-control" type="text" placeholder="Id" ng-model="new_user.id">
     <p></p>
-    <input class="form-control" type="text" placeholder="Title" ng-model="new_user.name">
+    <input class="form-control" type="text" placeholder="Username" ng-model="new_user.username">
+    <p></p>
+    <input class="form-control" type="text" placeholder="Password" ng-model="new_user.password">
     <p></p>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

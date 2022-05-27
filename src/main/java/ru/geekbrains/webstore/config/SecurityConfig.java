@@ -8,11 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.geekbrains.webstore.services.UserService;
+import ru.geekbrains.webstore.service.UserService;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = false, jsr250Enabled = false)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserService userService;
@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .logout()
         .invalidateHttpSession(true)
         .deleteCookies("JSESSIONID");
+    http.csrf().disable();
   }
 
   @Bean
