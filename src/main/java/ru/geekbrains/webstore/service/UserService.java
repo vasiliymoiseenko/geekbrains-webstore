@@ -1,9 +1,9 @@
 package ru.geekbrains.webstore.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +15,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.webstore.dto.UserDto;
 import ru.geekbrains.webstore.entity.Role;
 import ru.geekbrains.webstore.entity.User;
 import ru.geekbrains.webstore.exception.ResourceNotFoundException;
+import ru.geekbrains.webstore.repository.RoleRepository;
 import ru.geekbrains.webstore.repository.UserRepository;
 
 @Service
@@ -26,6 +28,7 @@ import ru.geekbrains.webstore.repository.UserRepository;
 public class UserService implements UserDetailsService {
 
   private UserRepository userRepository;
+  private RoleRepository roleRepository;
 
   public Page<User> findAll(int pageIndex, int pageSize) {
     if (pageIndex < 0) {
@@ -46,6 +49,9 @@ public class UserService implements UserDetailsService {
     User user = new User();
     user.setUsername(userDto.getUsername());
     user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+    Role role = roleRepository.findRoleByName("ROLE_USER").orElseThrow(() -> new ResourceNotFoundException("ROLE_USER not found"));
+    user.setRoles(new ArrayList<>());
+    user.getRoles().add(role);
     return userRepository.save(user);
   }
 

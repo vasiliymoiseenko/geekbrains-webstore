@@ -1,5 +1,5 @@
 angular.module('webstore-front').controller('addProductController',
-    function ($scope, $http, $location, $routeParams) {
+    function ($scope, $http, $location, $rootScope) {
       const contextPath = 'http://localhost:8189/webstore/api/v1/products/';
 
       $scope.addProduct = function () {

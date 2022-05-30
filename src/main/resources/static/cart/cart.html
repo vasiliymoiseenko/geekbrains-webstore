@@ -1,4 +1,4 @@
-<div>
+<div ng-show="isUserLoggedIn()">
   <p></p>
   <h1>Cart</h1>
   <table class="table">
@@ -24,4 +24,8 @@
 
   <p></p>
   <h2>Total price {{totalPrice}}</h2>
+</div>
+
+<div ng-show="!(isManager() || isAdmin())">
+  <h1>Access error</h1>
 </div>

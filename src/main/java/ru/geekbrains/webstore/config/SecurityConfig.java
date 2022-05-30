@@ -2,34 +2,34 @@ package ru.geekbrains.webstore.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.geekbrains.webstore.service.UserService;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = false, jsr250Enabled = false)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-  private final UserService userService;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-        .antMatchers("/lesson11_products.html").hasAnyRole("ADMIN", "MANAGER")
-        .antMatchers("/users.html").hasAnyRole("ADMIN")
+    http
+        .csrf().disable()
+        .authorizeRequests()
+//                .antMatchers("/api/v1/orders/**").authenticated()
+        .antMatchers("/#!/add_product").hasAnyRole("MANAGER")
         .anyRequest().permitAll()
         .and()
-        .formLogin()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
-        .logout()
-        .invalidateHttpSession(true)
-        .deleteCookies("JSESSIONID");
-    http.csrf().disable();
+        .headers().frameOptions().disable()
+        .and()
+        .exceptionHandling()
+        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
   }
 
   @Bean
@@ -37,11 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
+  @Override
   @Bean
-  public DaoAuthenticationProvider daoAuthenticationProvider() {
-    DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    authenticationProvider.setPasswordEncoder(passwordEncoder());
-    authenticationProvider.setUserDetailsService(userService);
-    return authenticationProvider;
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
 }

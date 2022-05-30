@@ -10,6 +10,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
 </head>
 
 <body ng-app="webstore-front">
@@ -24,11 +25,26 @@
           <li class="nav-item">
             <a class="nav-link" href="#!/products">Catalog</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" ng-show="isManager() || isAdmin()">
             <a class="nav-link" href="#!/add_product">Add product</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" ng-show="isUserLoggedIn()">
             <a class="nav-link" href="#!/cart">Cart</a>
+          </li>
+          <li class="nav-item" ng-show="isAdmin()">
+            <a class="nav-link" href="#!/users">Users</a>
+          </li>
+          <li class="nav-item" ng-show="!isUserLoggedIn()">
+            <form class="align-middle" ng-submit="tryToAuth()">
+              <div class="input-group input-group-sm" style="padding: 4px;">
+                <input class="form-control" ng-model="user.username" type="text" placeholder="Username" style="margin-left: 10px;">
+                <input class="form-control" ng-model="user.password" type="password" placeholder="Password" style="margin-left: 10px;">
+                <button id="navLoginSubmit" class="btn btn-outline-primary btn-sm" style="margin-left: 10px;" type="submit">Sign in</button>
+              </div>
+            </form>
+          </li>
+          <li class="nav-item" ng-show="isUserLoggedIn()" style="padding: 4px;">
+            <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Sign out</button>
           </li>
         </ul>
       </div>
@@ -43,6 +59,7 @@
   <script src="update_product/update_product.js"></script>
   <script src="add_product/add_product.js"></script>
   <script src="cart/cart.js"></script>
+  <script src="users/users.js"></script>
 </div>
 </body>
 </html>
