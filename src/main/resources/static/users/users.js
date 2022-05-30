@@ -1,5 +1,5 @@
-angular.module('webstore-front', []).controller('usersController',
-    function ($scope, $http) {
+angular.module('webstore-front').controller('usersController',
+    function ($scope, $http, $rootScope) {
       const contextPath = 'http://localhost:8189/webstore/api/v1/users/';
       let currentPageIndex = 1;
 

@@ -26,6 +26,10 @@
       templateUrl: 'cart/cart.html',
       controller: 'cartController'
     })
+    .when('/users', {
+      templateUrl: 'users/users.html',
+      controller: 'usersController'
+    })
     .otherwise({
       redirectTo: '/'
     });
@@ -53,7 +57,7 @@ angular.module('webstore-front').controller('indexController',
               username: $scope.user.username,
               token: response.data.token
             };
-
+            console.log($scope.parseJwt($localStorage.webstoreUser.token));
             $scope.user.username = null;
             $scope.user.password = null;
           }
@@ -84,5 +88,54 @@ angular.module('webstore-front').controller('indexController',
           return false;
         }
       };
+
+      $rootScope.isManager = function () {
+        try {
+          token = $scope.parseJwt($localStorage.webstoreUser.token);
+          console.log(token);
+          for (const role of token.roles) {
+            if (role == "ROLE_MANAGER") {
+              console.log("true");
+              return true;
+            }
+          }
+          return false;
+        } catch (err) {
+          return false;
+        }
+      }
+
+      $rootScope.isAdmin = function () {
+        try {
+          token = $scope.parseJwt($localStorage.webstoreUser.token);
+          console.log(token);
+          for (const role of token.roles) {
+            if (role == "ROLE_ADMIN") {
+              console.log("true");
+              return true;
+            }
+          }
+          return false;
+        } catch (err) {
+          return false;
+        }
+      }
+
+      $scope.parseJwt = function (token) {
+        try {
+          const base64HeaderUrl = token.split('.')[0];
+          const base64Header = base64HeaderUrl.replace('-', '+').replace('_',
+              '/');
+          const headerData = JSON.parse(window.atob(base64Header));
+
+          const base64Url = token.split('.')[1];
+          const base64 = base64Url.replace('-', '+').replace('_', '/');
+          const dataJWT = JSON.parse(window.atob(base64));
+          dataJWT.header = headerData;
+          return dataJWT;
+        } catch (err) {
+          return false;
+        }
+      }
 
     });

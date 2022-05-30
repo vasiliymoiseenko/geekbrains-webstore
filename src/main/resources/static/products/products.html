@@ -7,9 +7,9 @@
       <th scope="col">ID</th>
       <th scope="col">Title</th>
       <th scope="col">Price</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th ng-show="isManager() || isAdmin()"></th>
+      <th ng-show="isManager() || isAdmin()"></th>
+      <th ng-show="isUserLoggedIn()"></th>
     </tr>
     </thead>
     <tbody>
@@ -17,13 +17,13 @@
       <td>{{p.id}}</td>
       <td>{{p.title}}</td>
       <td>{{p.price}}</td>
-      <td>
+      <td ng-show="isManager() || isAdmin()">
         <button class="btn btn-primary" ng-click="goToEditPage(p.id)">Update</button>
       </td>
-      <td>
+      <td ng-show="isManager() || isAdmin()">
         <button class="btn btn-primary" ng-click="deleteProduct(p)">Delete</button>
       </td>
-      <td>
+      <td ng-show="isUserLoggedIn()">
         <button class="btn btn-primary" ng-click="addToCart(p.id)">Add to cart</button>
       </td>
     </tr>

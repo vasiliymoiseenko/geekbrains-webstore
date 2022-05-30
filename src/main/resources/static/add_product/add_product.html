@@ -1,4 +1,4 @@
-<div>
+<div ng-show="isManager() || isAdmin()">
   <p></p>
   <h1>Add Product</h1>
   <form novalidate ng-submit="addProduct()">
@@ -8,4 +8,8 @@
     <p></p>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
+</div>
+
+<div ng-show="!(isManager() || isAdmin())">
+  <h1>Access error</h1>
 </div>

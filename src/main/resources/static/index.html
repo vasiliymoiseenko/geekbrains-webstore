@@ -25,11 +25,14 @@
           <li class="nav-item">
             <a class="nav-link" href="#!/products">Catalog</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" ng-show="isManager() || isAdmin()">
             <a class="nav-link" href="#!/add_product">Add product</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" ng-show="isUserLoggedIn()">
             <a class="nav-link" href="#!/cart">Cart</a>
+          </li>
+          <li class="nav-item" ng-show="isAdmin()">
+            <a class="nav-link" href="#!/users">Users</a>
           </li>
           <li class="nav-item" ng-show="!isUserLoggedIn()">
             <form class="align-middle" ng-submit="tryToAuth()">
@@ -56,6 +59,7 @@
   <script src="update_product/update_product.js"></script>
   <script src="add_product/add_product.js"></script>
   <script src="cart/cart.js"></script>
+  <script src="users/users.js"></script>
 </div>
 </body>
 </html>
