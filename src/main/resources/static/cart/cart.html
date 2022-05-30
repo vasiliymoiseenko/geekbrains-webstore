@@ -26,6 +26,6 @@
   <h2>Total price {{totalPrice}}</h2>
 </div>
 
-<div ng-show="!(isManager() || isAdmin())">
+<div ng-show="!isUserLoggedIn()">
   <h1>Access error</h1>
 </div>
