@@ -1,5 +1,5 @@
 angular.module('webstore-front').controller('cartController',
-    function ($scope, $http) {
+    function ($scope, $http, $location) {
       const contextPath = 'http://localhost:8189/webstore/api/v1/cart/';
 
       $scope.loadCart = function () {
@@ -8,8 +8,25 @@ angular.module('webstore-front').controller('cartController',
           method: 'GET',
         }).then(function (response) {
           console.log(response);
-          $scope.productList = response.data.productDtoList;
-          $scope.totalPrice = response.data.totalPrice;
+          $scope.cart = response.data;
+        });
+      };
+
+      $scope.incrementItem = function (productId) {
+        $http.get(contextPath + 'add/' + productId)
+        .then(function successCallback(response) {
+          $scope.loadCart()
+        }, function failureCallback(response) {
+          alert(response.data.messages);
+        });
+      };
+
+      $scope.decrementItem = function (productId) {
+        $http.get(contextPath + 'sub/' + productId)
+        .then(function successCallback(response) {
+          $scope.loadCart()
+        }, function failureCallback(response) {
+          alert(response.data.messages);
         });
       };
 
@@ -22,5 +39,14 @@ angular.module('webstore-front').controller('cartController',
         });
       };
 
+      $scope.checkOut = function () {
+        $location.path('/checkout');
+      };
+
+      $scope.disabledCheckOut = function () {
+        alert('You need to log in')
+      };
+
       $scope.loadCart();
+
     });

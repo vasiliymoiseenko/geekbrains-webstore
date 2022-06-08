@@ -15,4 +15,4 @@ spring:
     driverClassName: org.postgresql.Driver
 jwt:
   secret: sdlfhjklasdhfkjasbdfklasdhfjklasdhfjklasdhf
-  lifetime: 3600000
+  lifetime: 36000000

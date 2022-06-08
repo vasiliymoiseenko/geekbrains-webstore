@@ -25,6 +25,11 @@ public class CartController {
     cartService.add(id);
   }
 
+  @GetMapping("/sub/{id}")
+  public void subProduct(@PathVariable Long id) {
+    cartService.sub(id);
+  }
+
   @GetMapping("/remove/{id}")
   public void removeProduct(@PathVariable Long id) {
     cartService.remove(id);

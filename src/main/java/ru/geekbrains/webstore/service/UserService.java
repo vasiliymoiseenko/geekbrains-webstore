@@ -1,6 +1,5 @@
 package ru.geekbrains.webstore.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,7 +49,6 @@ public class UserService implements UserDetailsService {
     user.setUsername(userDto.getUsername());
     user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
     Role role = roleRepository.findRoleByName("ROLE_USER").orElseThrow(() -> new ResourceNotFoundException("ROLE_USER not found"));
-    user.setRoles(new ArrayList<>());
     user.getRoles().add(role);
     return userRepository.save(user);
   }

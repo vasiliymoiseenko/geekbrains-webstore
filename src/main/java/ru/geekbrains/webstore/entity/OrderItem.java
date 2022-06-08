@@ -1,9 +1,6 @@
 package ru.geekbrains.webstore.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,19 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 @Entity
-@Table(name = "orders")
+@Table(name = "order_items")
 @Data
 @NoArgsConstructor
-public class Order {
+public class OrderItem {
 
   @Id
   @Column(name = "id")
@@ -32,20 +27,21 @@ public class Order {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+  @JoinColumn(name = "order_id")
+  private Order order;
 
-  @Column(name = "phone")
-  private String phone;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "product_id")
+  private Product product;
 
-  @Column(name = "address")
-  private String address;
+  @Column(name = "amount")
+  private Integer amount;
+
+  @Column(name = "price_by_product")
+  private Long priceByProduct;
 
   @Column(name = "price")
   private Long price;
-
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-  private List<OrderItem> items = new ArrayList<>();
 
   @CreationTimestamp
   @Column(name = "created_at")
@@ -54,5 +50,4 @@ public class Order {
   @UpdateTimestamp
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
-
 }
