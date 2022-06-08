@@ -1,27 +1,38 @@
 package ru.geekbrains.webstore.service;
 
-import lombok.AllArgsConstructor;
+import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.component.Cart;
-import ru.geekbrains.webstore.entity.Product;
-import ru.geekbrains.webstore.exception.ResourceNotFoundException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartService {
 
-  private ProductService productService;
+  private final ProductService productService;
   private Cart cart;
+
+  @PostConstruct
+  public void init() {
+    this.cart = new Cart();
+  }
 
   public Cart getCart() {
     return cart;
   }
 
   public void add(Long id) {
+    if (cart.add(id)) {
+      return;
+    }
     cart.add(productService.findById(id));
   }
 
+  public void sub(Long id) {
+    cart.sub(id);
+  }
+
   public void remove(Long id) {
-    cart.remove(productService.findById(id));
+    cart.remove(id);
   }
 }

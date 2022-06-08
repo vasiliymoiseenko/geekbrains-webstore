@@ -27,7 +27,6 @@ angular.module('webstore-front').controller('productsController',
       };
 
       $scope.goToEditPage = function (productId) {
-        console.log("product id = " + productId);
         $location.path('/edit_product/' + productId);
       }
 

@@ -8,13 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 @Entity
-@Data
 @Table(name = "roles")
+@Data
 @NoArgsConstructor
-@Accessors(chain = true)
 public class Role {
 
   @Id

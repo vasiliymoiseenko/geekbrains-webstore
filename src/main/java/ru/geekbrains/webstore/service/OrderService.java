@@ -1,17 +1,17 @@
 package ru.geekbrains.webstore.service;
 
-import static ru.geekbrains.webstore.mapper.OrderMapper.ORDER_MAPPER;
+import static ru.geekbrains.webstore.mapper.OrderItemMapper.ORDER_ITEM_MAPPER;
 
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.geekbrains.webstore.dto.OrderDto;
+import org.springframework.transaction.annotation.Transactional;
+import ru.geekbrains.webstore.component.Cart;
+import ru.geekbrains.webstore.dto.OrderItemDto;
 import ru.geekbrains.webstore.entity.Order;
-import ru.geekbrains.webstore.entity.Product;
-import ru.geekbrains.webstore.entity.User;
+import ru.geekbrains.webstore.entity.OrderItem;
 import ru.geekbrains.webstore.exception.ResourceNotFoundException;
 import ru.geekbrains.webstore.repository.OrderRepository;
 
@@ -39,29 +39,18 @@ public class OrderService {
     orderRepository.deleteById(id);
   }
 
-  public Order save(OrderDto orderDto) {
-    Order order = ORDER_MAPPER.toOrder(orderDto, userService, productService);
-    return orderRepository.save(order);
-  }
-
   @Transactional
-  public Order update(OrderDto orderDto) {
-    Long id = orderDto.getId();
-
-    Order order = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + " not found"));
-    order.setPurchasePrise(orderDto.getPurchasePrise());
-
-    if (!order.getUser().getUsername().equals(orderDto.getUsername())) {
-      User user = userService.findByUsername(orderDto.getUsername())
-          .orElseThrow(() -> new ResourceNotFoundException("User name = " + orderDto.getUsername() + " not found"));
-      order.setUser(user);
+  public Order save(Cart cart) {
+    Order order = new Order();
+    order.setPrice(cart.getPrice());
+    order.setUser(userService.findByUsername("User1").get());
+    for (OrderItemDto i : cart.getItems()) {
+      OrderItem item = ORDER_ITEM_MAPPER.toOrderItem(i, productService);
+      item.setOrder(order);
+      order.getItems().add(item);
     }
-    if (!order.getProduct().getTitle().equals(orderDto.getProductTitle())) {
-      Product product = productService.findByTitle(orderDto.getProductTitle())
-          .orElseThrow(() -> new ResourceNotFoundException("Product title = " + orderDto.getProductTitle() + " not found"));
-      order.setProduct(product);
-    }
-
+    cart.clear();
     return orderRepository.save(order);
   }
+
 }

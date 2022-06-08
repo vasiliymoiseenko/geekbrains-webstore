@@ -30,13 +30,17 @@
       templateUrl: 'users/users.html',
       controller: 'usersController'
     })
+    .when('/checkout', {
+      templateUrl: 'checkout/checkout.html',
+      controller: 'checkoutController'
+    })
     .otherwise({
       redirectTo: '/'
     });
   }
 
   function run($rootScope, $http, $localStorage) {
-    if ($localStorage.webMarketUser) {
+    if ($localStorage.webstoreUser) {
       $http.defaults.headers.common.Authorization = 'Bearer '
           + $localStorage.webstoreUser.token;
     }
@@ -57,7 +61,6 @@ angular.module('webstore-front').controller('indexController',
               username: $scope.user.username,
               token: response.data.token
             };
-            console.log($scope.parseJwt($localStorage.webstoreUser.token));
             $scope.user.username = null;
             $scope.user.password = null;
           }
@@ -92,10 +95,8 @@ angular.module('webstore-front').controller('indexController',
       $rootScope.isManager = function () {
         try {
           token = $scope.parseJwt($localStorage.webstoreUser.token);
-          console.log(token);
           for (const role of token.roles) {
             if (role == "ROLE_MANAGER") {
-              console.log("true");
               return true;
             }
           }
@@ -108,10 +109,8 @@ angular.module('webstore-front').controller('indexController',
       $rootScope.isAdmin = function () {
         try {
           token = $scope.parseJwt($localStorage.webstoreUser.token);
-          console.log(token);
           for (const role of token.roles) {
             if (role == "ROLE_ADMIN") {
-              console.log("true");
               return true;
             }
           }
