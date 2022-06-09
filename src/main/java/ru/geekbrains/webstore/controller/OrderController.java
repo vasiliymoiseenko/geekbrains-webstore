@@ -3,15 +3,14 @@ package ru.geekbrains.webstore.controller;
 import static ru.geekbrains.webstore.mapper.OrderMapper.ORDER_MAPPER;
 
 import java.security.Principal;
+import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.dto.OrderDetailsDto;
 import ru.geekbrains.webstore.dto.OrderDto;
@@ -24,9 +23,15 @@ public class OrderController {
 
   private OrderService orderService;
 
-  @GetMapping
+  /*@GetMapping
   public Page<OrderDto> getAllOrders(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
     return orderService.findAll(pageIndex - 1, 10).map(ORDER_MAPPER::fromOrder);
+  }
+*/
+
+  @GetMapping
+  public List<OrderDto> getAllOrders(Principal principal) {
+    return ORDER_MAPPER.toOrderDtoList(orderService.findAllByUsername(principal.getName()));
   }
 
   @GetMapping("/{id}")

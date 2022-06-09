@@ -15,6 +15,19 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=password
+    volumes:
+      - admin-data:/var/lib/pgadmin
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - cache:/data
 volumes:
   db-data:
+    driver: local
+  cache:
+    driver: local
+  admin-data:
     driver: local

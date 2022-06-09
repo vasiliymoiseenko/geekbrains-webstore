@@ -44,7 +44,7 @@ public class Order {
   @Column(name = "price")
   private Long price;
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<OrderItem> items = new ArrayList<>();
 
   @CreationTimestamp

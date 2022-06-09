@@ -17,7 +17,7 @@ public class CartController {
 
   @GetMapping
   public Cart getCart() {
-    return cartService.getCart();
+    return cartService.getCartForCurrentUser();
   }
 
   @GetMapping("/add/{id}")

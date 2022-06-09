@@ -2,11 +2,13 @@ package ru.geekbrains.webstore.service;
 
 import static ru.geekbrains.webstore.mapper.OrderMapper.ORDER_MAPPER;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.webstore.component.Cart;
 import ru.geekbrains.webstore.dto.OrderDetailsDto;
 import ru.geekbrains.webstore.dto.OrderDto;
@@ -40,6 +42,7 @@ public class OrderService {
   }
 
 
+  @Transactional
   public Order save(OrderDto orderDto) {
     Order order = ORDER_MAPPER.toOrder(orderDto, userService, productService);
     order.getItems().forEach(i -> i.setOrder(order));
@@ -48,7 +51,7 @@ public class OrderService {
 
   public Order createOrder(OrderDetailsDto orderDetailsDto, String username) {
     OrderDto orderDto = new OrderDto();
-    Cart cart = cartService.getCart();
+    Cart cart = cartService.getCartForCurrentUser();
 
     orderDto.setUsername(username);
     orderDto.setPhone(orderDetailsDto.getPhone());
@@ -58,5 +61,9 @@ public class OrderService {
     cartService.clear();
 
     return save(orderDto);
+  }
+
+  public List<Order> findAllByUsername(String username) {
+    return orderRepository.findAllByUsername(username);
   }
 }

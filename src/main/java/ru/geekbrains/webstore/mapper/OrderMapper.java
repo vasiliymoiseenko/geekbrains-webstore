@@ -49,4 +49,6 @@ public interface OrderMapper {
     order.setUser(userService.findByUsername(orderDto.getUsername())
         .orElseThrow(() -> new ResourceNotFoundException("Username = " + orderDto.getUsername() + " not found")));
   }
+
+  List<OrderDto> toOrderDtoList(List<Order> orderList);
 }
