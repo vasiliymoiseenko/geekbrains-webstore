@@ -1,5 +1,5 @@
 angular.module('webstore-front').controller('productsController',
-    function ($scope, $http, $location, $rootScope) {
+    function ($scope, $http, $location, $rootScope, $localStorage) {
       const contextPath = 'http://localhost:8189/webstore/api/v1/products/';
       let currentPageIndex = 1;
 
@@ -27,12 +27,12 @@ angular.module('webstore-front').controller('productsController',
       };
 
       $scope.goToEditPage = function (productId) {
-        console.log("product id = " + productId);
         $location.path('/edit_product/' + productId);
       }
 
       $scope.addToCart = function (productId) {
-        $http.get('http://localhost:8189/webstore/api/v1/cart/add/' + productId)
+        $http.get('http://localhost:8189/webstore/api/v1/cart/'
+            + $localStorage.webstoreGuestCartId + '/add/' + productId)
         .then(function successCallback(response) {
           alert('Product added to cart successfully');
         }, function failureCallback(response) {

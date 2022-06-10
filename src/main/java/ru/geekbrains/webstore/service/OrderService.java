@@ -2,16 +2,17 @@ package ru.geekbrains.webstore.service;
 
 import static ru.geekbrains.webstore.mapper.OrderMapper.ORDER_MAPPER;
 
-import javax.transaction.Transactional;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.geekbrains.webstore.cart.Cart;
+import ru.geekbrains.webstore.dto.OrderDetailsDto;
 import ru.geekbrains.webstore.dto.OrderDto;
 import ru.geekbrains.webstore.entity.Order;
-import ru.geekbrains.webstore.entity.Product;
-import ru.geekbrains.webstore.entity.User;
 import ru.geekbrains.webstore.exception.ResourceNotFoundException;
 import ru.geekbrains.webstore.repository.OrderRepository;
 
@@ -22,6 +23,7 @@ public class OrderService {
   private OrderRepository orderRepository;
   private UserService userService;
   private ProductService productService;
+  private CartService cartService;
 
   public Page<Order> findAll(int pageIndex, int pageSize) {
     if (pageIndex < 0) {
@@ -39,29 +41,30 @@ public class OrderService {
     orderRepository.deleteById(id);
   }
 
+
+  @Transactional
   public Order save(OrderDto orderDto) {
     Order order = ORDER_MAPPER.toOrder(orderDto, userService, productService);
+    order.getItems().forEach(i -> i.setOrder(order));
     return orderRepository.save(order);
   }
 
-  @Transactional
-  public Order update(OrderDto orderDto) {
-    Long id = orderDto.getId();
+  public Order createOrder(OrderDetailsDto orderDetailsDto, String username) {
+    OrderDto orderDto = new OrderDto();
+    String cartId = CartService.CART_PREFIX + username;
+    Cart cart = cartService.getCartForCurrentUser(cartId);
 
-    Order order = orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + " not found"));
-    order.setPurchasePrise(orderDto.getPurchasePrise());
+    orderDto.setUsername(username);
+    orderDto.setPhone(orderDetailsDto.getPhone());
+    orderDto.setAddress(orderDetailsDto.getAddress());
+    orderDto.setPrice(cart.getPrice());
+    orderDto.getItems().addAll(cart.getItems());
+    cartService.clear(cartId);
 
-    if (!order.getUser().getUsername().equals(orderDto.getUsername())) {
-      User user = userService.findByUsername(orderDto.getUsername())
-          .orElseThrow(() -> new ResourceNotFoundException("User name = " + orderDto.getUsername() + " not found"));
-      order.setUser(user);
-    }
-    if (!order.getProduct().getTitle().equals(orderDto.getProductTitle())) {
-      Product product = productService.findByTitle(orderDto.getProductTitle())
-          .orElseThrow(() -> new ResourceNotFoundException("Product title = " + orderDto.getProductTitle() + " not found"));
-      order.setProduct(product);
-    }
+    return save(orderDto);
+  }
 
-    return orderRepository.save(order);
+  public List<Order> findAllByUsername(String username) {
+    return orderRepository.findAllByUsername(username);
   }
 }

@@ -30,15 +30,30 @@
       templateUrl: 'users/users.html',
       controller: 'usersController'
     })
+    .when('/checkout', {
+      templateUrl: 'checkout/checkout.html',
+      controller: 'checkoutController'
+    })
+    .when('/orders', {
+      templateUrl: 'orders/orders.html',
+      controller: 'ordersController'
+    })
     .otherwise({
       redirectTo: '/'
     });
   }
 
   function run($rootScope, $http, $localStorage) {
-    if ($localStorage.webMarketUser) {
+    const contextPath = 'http://localhost:8189/webstore';
+    if ($localStorage.webstoreUser) {
       $http.defaults.headers.common.Authorization = 'Bearer '
           + $localStorage.webstoreUser.token;
+    }
+    if (!$localStorage.webstoreGuestCartId) {
+      $http.get(contextPath + '/api/v1/cart/generate')
+      .then(function successCallback(response) {
+        $localStorage.webstoreGuestCartId = response.data.value;
+      });
     }
   }
 })();
@@ -57,9 +72,13 @@ angular.module('webstore-front').controller('indexController',
               username: $scope.user.username,
               token: response.data.token
             };
-            console.log($scope.parseJwt($localStorage.webstoreUser.token));
             $scope.user.username = null;
             $scope.user.password = null;
+
+            $http.get(contextPath + '/api/v1/cart/'
+                + $localStorage.webstoreGuestCartId + '/merge')
+            .then(function successCallback(response) {
+            });
           }
         }, function errorCallback(response) {
           alert(response.data.messages)
@@ -92,10 +111,8 @@ angular.module('webstore-front').controller('indexController',
       $rootScope.isManager = function () {
         try {
           token = $scope.parseJwt($localStorage.webstoreUser.token);
-          console.log(token);
           for (const role of token.roles) {
             if (role == "ROLE_MANAGER") {
-              console.log("true");
               return true;
             }
           }
@@ -108,10 +125,8 @@ angular.module('webstore-front').controller('indexController',
       $rootScope.isAdmin = function () {
         try {
           token = $scope.parseJwt($localStorage.webstoreUser.token);
-          console.log(token);
           for (const role of token.roles) {
             if (role == "ROLE_ADMIN") {
-              console.log("true");
               return true;
             }
           }
