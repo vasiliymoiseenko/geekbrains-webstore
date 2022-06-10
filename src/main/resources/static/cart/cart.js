@@ -1,10 +1,10 @@
 angular.module('webstore-front').controller('cartController',
-    function ($scope, $http, $location) {
+    function ($scope, $http, $location, $localStorage) {
       const contextPath = 'http://localhost:8189/webstore/api/v1/cart/';
 
       $scope.loadCart = function () {
         $http({
-          url: contextPath,
+          url: contextPath + $localStorage.webstoreGuestCartId,
           method: 'GET',
         }).then(function (response) {
           console.log(response);
@@ -13,7 +13,8 @@ angular.module('webstore-front').controller('cartController',
       };
 
       $scope.incrementItem = function (productId) {
-        $http.get(contextPath + 'add/' + productId)
+        $http.get(contextPath + $localStorage.webstoreGuestCartId + '/add/'
+            + productId)
         .then(function successCallback(response) {
           $scope.loadCart()
         }, function failureCallback(response) {
@@ -22,7 +23,8 @@ angular.module('webstore-front').controller('cartController',
       };
 
       $scope.decrementItem = function (productId) {
-        $http.get(contextPath + 'sub/' + productId)
+        $http.get(contextPath + $localStorage.webstoreGuestCartId + '/sub/'
+            + productId)
         .then(function successCallback(response) {
           $scope.loadCart()
         }, function failureCallback(response) {
@@ -31,7 +33,8 @@ angular.module('webstore-front').controller('cartController',
       };
 
       $scope.removeFromCart = function (productId) {
-        $http.get(contextPath + 'remove/' + productId)
+        $http.get(contextPath + $localStorage.webstoreGuestCartId + '/remove/'
+            + productId)
         .then(function successCallback(response) {
           $scope.loadCart()
         }, function failureCallback(response) {

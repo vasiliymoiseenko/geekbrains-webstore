@@ -1,4 +1,4 @@
-package ru.geekbrains.webstore.component;
+package ru.geekbrains.webstore.cart;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,6 +52,24 @@ public class Cart {
   public void clear() {
     items.clear();
     price = 0L;
+  }
+
+  public void merge(Cart another) {
+    for (OrderItemDto anotherItem : another.items) {
+      boolean merged = false;
+      for (OrderItemDto item : items) {
+        if (item.getProductId().equals(anotherItem.getProductId())) {
+          item.changeQuantity(anotherItem.getAmount());
+          merged = true;
+          break;
+        }
+      }
+      if (!merged) {
+        items.add(anotherItem);
+      }
+    }
+    recalculate();
+    another.clear();
   }
 
   private void recalculate() {

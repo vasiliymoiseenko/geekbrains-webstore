@@ -100,14 +100,14 @@ CREATE TABLE IF NOT EXISTS public.orders
 DROP TABLE IF EXISTS public.order_items CASCADE;
 CREATE TABLE IF NOT EXISTS public.order_items
 (
-    id               BIGSERIAL NOT NULL,
-    order_id         bigint    NOT NULL,
-    product_id       bigint    NOT NULL,
-    amount           int       NOT NULL,
-    price_by_product bigint    NOT NULL,
-    price            bigint    NOT NULL,
-    created_at       timestamp without time zone,
-    updated_at       timestamp without time zone,
+    id                BIGSERIAL NOT NULL,
+    order_id          bigint    NOT NULL,
+    product_id        bigint    NOT NULL,
+    amount            int       NOT NULL,
+    price_per_product bigint    NOT NULL,
+    price             bigint    NOT NULL,
+    created_at        timestamp without time zone,
+    updated_at        timestamp without time zone,
     CONSTRAINT order_items_pkey PRIMARY KEY (id),
     CONSTRAINT product_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT order_fkey FOREIGN KEY (order_id) REFERENCES public.orders (id) ON UPDATE CASCADE ON DELETE CASCADE

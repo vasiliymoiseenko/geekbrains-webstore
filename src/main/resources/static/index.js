@@ -44,9 +44,16 @@
   }
 
   function run($rootScope, $http, $localStorage) {
+    const contextPath = 'http://localhost:8189/webstore';
     if ($localStorage.webstoreUser) {
       $http.defaults.headers.common.Authorization = 'Bearer '
           + $localStorage.webstoreUser.token;
+    }
+    if (!$localStorage.webstoreGuestCartId) {
+      $http.get(contextPath + '/api/v1/cart/generate')
+      .then(function successCallback(response) {
+        $localStorage.webstoreGuestCartId = response.data.value;
+      });
     }
   }
 })();
@@ -67,6 +74,11 @@ angular.module('webstore-front').controller('indexController',
             };
             $scope.user.username = null;
             $scope.user.password = null;
+
+            $http.get(contextPath + '/api/v1/cart/'
+                + $localStorage.webstoreGuestCartId + '/merge')
+            .then(function successCallback(response) {
+            });
           }
         }, function errorCallback(response) {
           alert(response.data.messages)

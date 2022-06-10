@@ -12,14 +12,14 @@ public class OrderItemDto {
   private Long productId;
   private String productTitle;
   private Integer amount;
-  private Long priceByProduct;
+  private Long pricePerProduct;
   private Long price;
 
   public OrderItemDto(Product product) {
     this.productId = product.getId();
     this.productTitle = product.getTitle();
     this.amount = 1;
-    this.priceByProduct = product.getPrice();
+    this.pricePerProduct = product.getPrice();
     this.price = product.getPrice();
   }
 
@@ -28,7 +28,7 @@ public class OrderItemDto {
     if (amount <= 0) {
       amount = 0;
     }
-    price = priceByProduct * amount;
+    price = pricePerProduct * amount;
   }
 
 }

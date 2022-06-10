@@ -37,8 +37,8 @@ public class OrderItem {
   @Column(name = "amount")
   private Integer amount;
 
-  @Column(name = "price_by_product")
-  private Long priceByProduct;
+  @Column(name = "price_per_product")
+  private Long pricePerProduct;
 
   @Column(name = "price")
   private Long price;

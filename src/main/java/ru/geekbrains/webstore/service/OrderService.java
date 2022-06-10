@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.geekbrains.webstore.component.Cart;
+import ru.geekbrains.webstore.cart.Cart;
 import ru.geekbrains.webstore.dto.OrderDetailsDto;
 import ru.geekbrains.webstore.dto.OrderDto;
 import ru.geekbrains.webstore.entity.Order;
@@ -51,14 +51,15 @@ public class OrderService {
 
   public Order createOrder(OrderDetailsDto orderDetailsDto, String username) {
     OrderDto orderDto = new OrderDto();
-    Cart cart = cartService.getCartForCurrentUser();
+    String cartId = CartService.CART_PREFIX + username;
+    Cart cart = cartService.getCartForCurrentUser(cartId);
 
     orderDto.setUsername(username);
     orderDto.setPhone(orderDetailsDto.getPhone());
     orderDto.setAddress(orderDetailsDto.getAddress());
     orderDto.setPrice(cart.getPrice());
     orderDto.getItems().addAll(cart.getItems());
-    cartService.clear();
+    cartService.clear(cartId);
 
     return save(orderDto);
   }

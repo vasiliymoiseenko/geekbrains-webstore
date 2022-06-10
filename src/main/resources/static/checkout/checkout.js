@@ -1,10 +1,10 @@
 angular.module('webstore-front').controller('checkoutController',
-    function ($scope, $http, $location) {
+    function ($scope, $http, $location, $localStorage) {
       const contextPath = 'http://localhost:8189/webstore/api/v1/cart/';
 
       $scope.loadCart = function () {
         $http({
-          url: contextPath,
+          url: contextPath + $localStorage.webstoreGuestCartId,
           method: 'GET',
         }).then(function (response) {
           $scope.cart = response.data;
