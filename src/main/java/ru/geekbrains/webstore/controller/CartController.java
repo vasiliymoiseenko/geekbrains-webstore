@@ -24,7 +24,7 @@ public class CartController {
 
   @GetMapping("{uuid}/merge")
   public void mergeCarts(Principal principal, @PathVariable String uuid) {
-    cartService.merge(principal, uuid);
+    cartService.merge(cartService.getCartId(principal, null), cartService.getCartId(null, uuid));
   }
 
   @GetMapping("{uuid}")

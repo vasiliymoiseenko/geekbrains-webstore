@@ -2,6 +2,7 @@ package ru.geekbrains.webstore.service;
 
 import java.security.Principal;
 import java.util.UUID;
+import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -20,40 +21,29 @@ public class CartService {
     if (!redisTemplate.hasKey(cartId)) {
       redisTemplate.opsForValue().set(cartId, new Cart());
     }
-    Cart cart = (Cart) redisTemplate.opsForValue().get(cartId);
-    return cart;
-  }
-
-  public void updateCart(String cartId, Cart cart) {
-    redisTemplate.opsForValue().set(cartId, cart);
+    return (Cart) redisTemplate.opsForValue().get(cartId);
   }
 
   public void add(String cartId, Long id) {
-    Cart cart = getCartForCurrentUser(cartId);
-    if (cart.add(id)) {
-      updateCart(cartId, cart);
-      return;
-    }
-    cart.add(productService.findById(id));
-    updateCart(cartId, cart);
+    execute(cartId, c -> {
+      if (c.add(id)) {
+        redisTemplate.opsForValue().set(cartId, c);
+        return;
+      }
+      c.add(productService.findById(id));
+    });
   }
 
   public void sub(String cartId, Long id) {
-    Cart cart = getCartForCurrentUser(cartId);
-    cart.sub(id);
-    updateCart(cartId, cart);
+    execute(cartId, c -> c.sub(id));
   }
 
   public void remove(String cartId, Long id) {
-    Cart cart = getCartForCurrentUser(cartId);
-    cart.remove(id);
-    updateCart(cartId, cart);
+    execute(cartId, c -> c.remove(id));
   }
 
   public void clear(String cartId) {
-    Cart cart = getCartForCurrentUser(cartId);
-    cart.clear();
-    updateCart(cartId, cart);
+    execute(cartId, Cart::clear);
   }
 
   public String getCartId(Principal principal, String uuid) {
@@ -67,15 +57,17 @@ public class CartService {
     return new CartUuid(UUID.randomUUID().toString());
   }
 
-  public void merge(Principal principal, String uuid) {
-    String userCartId = CART_PREFIX + principal.getName();
-    String uuidCartId = CART_PREFIX + uuid;
-
+  public void merge(String userCartId, String uuidCartId) {
     Cart userCart = getCartForCurrentUser(userCartId);
     Cart uuidCart = getCartForCurrentUser(uuidCartId);
     userCart.merge(uuidCart);
+    redisTemplate.opsForValue().set(userCartId, userCart);
+    redisTemplate.opsForValue().set(uuidCartId, uuidCart);
+  }
 
-    updateCart(userCartId, userCart);
-    updateCart(uuidCartId, uuidCart);
+  private void execute(String cartId, Consumer<Cart> action) {
+    Cart cart = getCartForCurrentUser(cartId);
+    action.accept(cart);
+    redisTemplate.opsForValue().set(cartId, cart);
   }
 }
