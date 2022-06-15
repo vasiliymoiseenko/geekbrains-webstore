@@ -2,7 +2,6 @@ package ru.geekbrains.webstore.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,7 +60,8 @@ public class ProductService {
     return productRepository.findAllByPriceGreaterThanEqual(minPrice);
   }
 
-  public Optional<Product> findByTitle(String title) {
-    return productRepository.findProductByTitle(title);
+  public Product findByTitle(String title) {
+    return productRepository.findProductByTitle(title)
+        .orElseThrow(() -> new ResourceNotFoundException("Product title = " + title + " not found"));
   }
 }
