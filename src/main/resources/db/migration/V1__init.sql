@@ -51,37 +51,52 @@ VALUES (1, 1),
        (3, 3),
        (4, 4);
 
+DROP TABLE IF EXISTS public.categories CASCADE;
+CREATE TABLE IF NOT EXISTS public.categories
+(
+    id         BIGSERIAL                     NOT NULL,
+    name       character varying(255) UNIQUE NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    CONSTRAINT categories_pkey PRIMARY KEY (id)
+);
+INSERT INTO public.categories (name)
+VALUES ('Appliances'),
+       ('Electrinics');
+
 DROP TABLE IF EXISTS public.products CASCADE;
 CREATE TABLE IF NOT EXISTS public.products
 (
-    id         BIGSERIAL                     NOT NULL,
-    price      bigint                        NOT NULL,
-    title      character varying(255) UNIQUE NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    CONSTRAINT products_pkey PRIMARY KEY (id)
+    id          BIGSERIAL                     NOT NULL,
+    category_id bigint                        NOT NULL,
+    price       bigint                        NOT NULL,
+    title       character varying(255) UNIQUE NOT NULL,
+    created_at  timestamp without time zone,
+    updated_at  timestamp without time zone,
+    CONSTRAINT products_pkey PRIMARY KEY (id),
+    CONSTRAINT categories_fkey FOREIGN KEY (category_id) REFERENCES public.categories (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
-INSERT INTO public.products (title, price)
-VALUES ('TV', 1000.0),
-       ('PS5', 250.99),
-       ('X-Box', 500.0),
-       ('Iphone', 2000.0),
-       ('Xiaomi', 300.0),
-       ('IBM PC', 2000.99),
-       ('Microwave', 100.0),
-       ('Washing machine', 125.0),
-       ('Oven', 349.5),
-       ('Notepad', 100.0),
-       ('Notebook', 2500.0),
-       ('Vacuum cleaner', 123.99),
-       ('Hair dryer', 50.0),
-       ('Iron', 20.0),
-       ('Air conditioning', 325.25),
-       ('Clock', 10.0),
-       ('Humidifier', 111.0),
-       ('Teapot', 50.0),
-       ('Fridge', 1000.0),
-       ('Dishwasher', 300.00);
+INSERT INTO public.products (category_id, title, price)
+VALUES (2, 'TV', 1000.0),
+       (2, 'PS5', 250.99),
+       (2, 'X-Box', 500.0),
+       (2, 'Iphone', 2000.0),
+       (2, 'Xiaomi', 300.0),
+       (2, 'IBM PC', 2000.99),
+       (1, 'Microwave', 100.0),
+       (1, 'Washing machine', 125.0),
+       (1, 'Oven', 349.5),
+       (2, 'Notepad', 100.0),
+       (2, 'Notebook', 2500.0),
+       (1, 'Vacuum cleaner', 123.99),
+       (1, 'Hair dryer', 50.0),
+       (1, 'Iron', 20.0),
+       (1, 'Air conditioning', 325.25),
+       (1, 'Clock', 10.0),
+       (1, 'Humidifier', 111.0),
+       (1, 'Teapot', 50.0),
+       (1, 'Fridge', 1000.0),
+       (1, 'Dishwasher', 300.00);
 
 DROP TABLE IF EXISTS public.orders CASCADE;
 CREATE TABLE IF NOT EXISTS public.orders
