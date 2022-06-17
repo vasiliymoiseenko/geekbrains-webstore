@@ -8,7 +8,6 @@ import ru.geekbrains.webstore.entity.Product;
 @NoArgsConstructor
 public class OrderItemDto {
 
-
   private Long productId;
   private String productTitle;
   private Integer amount;

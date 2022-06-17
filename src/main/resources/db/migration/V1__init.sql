@@ -55,12 +55,12 @@ DROP TABLE IF EXISTS public.categories CASCADE;
 CREATE TABLE IF NOT EXISTS public.categories
 (
     id         BIGSERIAL                     NOT NULL,
-    name       character varying(255) UNIQUE NOT NULL,
+    title      character varying(255) UNIQUE NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     CONSTRAINT categories_pkey PRIMARY KEY (id)
 );
-INSERT INTO public.categories (name)
+INSERT INTO public.categories (title)
 VALUES ('Appliances'),
        ('Electrinics');
 

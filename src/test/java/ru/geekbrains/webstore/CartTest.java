@@ -39,7 +39,7 @@ public class CartTest {
     product.setPrice(100L);
 
     Category category = new Category();
-    category.setName("Electronics");
+    category.setTitle("Electronics");
     product.setCategory(category);
 
     Mockito.doReturn(product).when(productService).findById(1L);
@@ -62,7 +62,7 @@ public class CartTest {
     product.setPrice(100L);
 
     Category category = new Category();
-    category.setName("Electronics");
+    category.setTitle("Electronics");
     product.setCategory(category);
 
     Mockito.doReturn(product).when(productService).findById(1L);
@@ -91,7 +91,7 @@ public class CartTest {
     product.setPrice(100L);
 
     Category category = new Category();
-    category.setName("Electronics");
+    category.setTitle("Electronics");
     product.setCategory(category);
 
     Mockito.doReturn(product).when(productService).findById(1L);
@@ -119,7 +119,7 @@ public class CartTest {
     product2.setPrice(200L);
 
     Category category = new Category();
-    category.setName("Electronics");
+    category.setTitle("Electronics");
     product1.setCategory(category);
     product2.setCategory(category);
 
