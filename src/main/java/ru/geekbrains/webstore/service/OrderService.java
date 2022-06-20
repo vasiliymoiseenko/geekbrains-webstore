@@ -51,7 +51,7 @@ public class OrderService {
 
   public Order createOrder(OrderDetailsDto orderDetailsDto, String username) {
     OrderDto orderDto = new OrderDto();
-    String cartId = CartService.CART_PREFIX + username;
+    String cartId = cartService.getCartPrefix() + username;
     Cart cart = cartService.getCartForCurrentUser(cartId);
 
     orderDto.setUsername(username);

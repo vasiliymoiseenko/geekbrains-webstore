@@ -9,10 +9,12 @@ angular.module('webstore-front').controller('productsController',
           url: contextPath,
           method: 'GET',
           params: {
-            p: pageIndex
+            p: pageIndex,
+            title: $scope.filter ? $scope.filter.title : null,
+            min_price: $scope.filter ? $scope.filter.min_price : null,
+            max_price: $scope.filter ? $scope.filter.max_price : null
           }
         }).then(function (response) {
-          console.log(response);
           $scope.productsPage = response.data;
           $scope.paginationArray = $scope.generatePagesIndexes(1,
               $scope.productsPage.totalPages);

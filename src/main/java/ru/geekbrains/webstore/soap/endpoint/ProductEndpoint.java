@@ -7,7 +7,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import ru.geekbrains.webstore.entity.Product;
-import ru.geekbrains.webstore.service.ProductService;
+import ru.geekbrains.webstore.repository.ProductRepository;
 import ru.geekbrains.webstore.soap.product.GetAllProductsRequest;
 import ru.geekbrains.webstore.soap.product.GetAllProductsResponse;
 import ru.geekbrains.webstore.soap.product.GetProductByNameRequest;
@@ -19,13 +19,15 @@ import ru.geekbrains.webstore.soap.product.ProductSoap;
 public class ProductEndpoint {
 
   private static final String NAMESPACE_URI = "http://www.moiseenko.com/spring/ws/products";
-  private final ProductService productService;
+
+  //Поменял сервис на репозиторий, так как в процессе доработки магазина в сервисе менялись аргументы методов
+  private final ProductRepository productRepository;
 
   @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getProductByNameRequest")
   @ResponsePayload
   public GetProductByNameResponse getProductByName(@RequestPayload GetProductByNameRequest request) {
     GetProductByNameResponse response = new GetProductByNameResponse();
-    Product product = productService.findByTitle(request.getName());
+    Product product = productRepository.findProductByTitle(request.getName()).get();
     ProductSoap productSoap = new ProductSoap();
     productSoap.setId(product.getId());
     productSoap.setTitle(product.getTitle());
@@ -50,7 +52,7 @@ public class ProductEndpoint {
   @ResponsePayload
   public GetAllProductsResponse getAllStudents(@RequestPayload GetAllProductsRequest request) {
     GetAllProductsResponse response = new GetAllProductsResponse();
-    List<Product> listProducts = productService.findAll(0, 100).toList();
+    List<Product> listProducts = productRepository.findAll();
     for (Product product : listProducts) {
       ProductSoap productSoap = new ProductSoap();
       productSoap.setId(product.getId());

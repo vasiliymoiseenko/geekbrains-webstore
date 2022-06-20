@@ -3,7 +3,9 @@ package ru.geekbrains.webstore.service;
 import java.security.Principal;
 import java.util.UUID;
 import java.util.function.Consumer;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.cart.Cart;
@@ -13,11 +15,14 @@ import ru.geekbrains.webstore.cart.CartUuid;
 @RequiredArgsConstructor
 public class CartService {
 
-  public static final String CART_PREFIX = "WEBSTORE_CART_";
+  @Value("${utils.cart.prefix}")
+  @Getter
+  private String cartPrefix;
   private final ProductService productService;
   private final RedisTemplate<String, Object> redisTemplate;
 
   public Cart getCartForCurrentUser(String cartId) {
+
     if (!redisTemplate.hasKey(cartId)) {
       redisTemplate.opsForValue().set(cartId, new Cart());
     }
@@ -48,9 +53,9 @@ public class CartService {
 
   public String getCartId(Principal principal, String uuid) {
     if (principal != null) {
-      return CART_PREFIX + principal.getName();
+      return cartPrefix + principal.getName();
     }
-    return CART_PREFIX + uuid;
+    return cartPrefix + uuid;
   }
 
   public CartUuid generateUuid() {

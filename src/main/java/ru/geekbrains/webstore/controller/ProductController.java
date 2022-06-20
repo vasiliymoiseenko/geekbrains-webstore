@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.dto.ProductDto;
 import ru.geekbrains.webstore.exception.DataValidationException;
-import ru.geekbrains.webstore.mapper.ProductMapper;
 import ru.geekbrains.webstore.service.ProductService;
 
 @RestController
@@ -31,8 +31,10 @@ public class ProductController {
   private ProductService productService;
 
   @GetMapping
-  public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
-    return productService.findAll(pageIndex - 1, 10).map(PRODUCT_MAPPER::fromProduct);
+  public Page<ProductDto> getAllProducts(
+      @RequestParam(defaultValue = "1", name = "p") int pageIndex,
+      @RequestParam MultiValueMap<String, String> params) {
+    return productService.findAll(params, pageIndex - 1, 10).map(PRODUCT_MAPPER::fromProduct);
   }
 
   @GetMapping("/{id}")

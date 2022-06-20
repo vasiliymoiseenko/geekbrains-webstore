@@ -16,3 +16,6 @@ spring:
 jwt:
   secret: sdlfhjklasdhfkjasbdfklasdhfjklasdhfjklasdhf
   lifetime: 36000000
+utils:
+  cart:
+    prefix: "WEBSTORE_CART_"

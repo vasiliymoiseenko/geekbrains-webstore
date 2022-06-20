@@ -7,11 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import ru.geekbrains.webstore.dto.ProductDto;
 import ru.geekbrains.webstore.entity.Product;
 import ru.geekbrains.webstore.exception.ResourceNotFoundException;
 import ru.geekbrains.webstore.mapper.ProductMapper;
 import ru.geekbrains.webstore.repository.ProductRepository;
+import ru.geekbrains.webstore.repository.specification.ProductSpecification;
 
 @Service
 @AllArgsConstructor
@@ -19,11 +21,11 @@ public class ProductService {
 
   private ProductRepository productRepository;
 
-  public Page<Product> findAll(int pageIndex, int pageSize) {
+  public Page<Product> findAll(MultiValueMap<String, String> params, int pageIndex, int pageSize) {
     if (pageIndex < 0) {
       pageIndex = 0;
     }
-    return productRepository.findAll(PageRequest.of(pageIndex, pageSize, Sort.by("id")));
+    return productRepository.findAll(ProductSpecification.construct(params), PageRequest.of(pageIndex, pageSize, Sort.by("id")));
   }
 
   public Product findById(Long id) {
