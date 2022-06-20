@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -21,6 +23,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 public class User {
@@ -35,21 +38,6 @@ public class User {
 
   @Column(name = "password")
   private String password;
-
-  @Column(name = "first_name")
-  private String firstName;
-
-  @Column(name = "middle_name")
-  private String middleName;
-
-  @Column(name = "last_name")
-  private String lastName;
-
-  @Column(name = "email")
-  private String email;
-
-  @Column(name = "phone")
-  private Long phone;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Order> orders = new ArrayList<>();

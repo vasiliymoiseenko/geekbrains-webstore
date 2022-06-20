@@ -3,10 +3,10 @@ package ru.geekbrains.webstore.repository;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.geekbrains.webstore.entity.User;
+import ru.geekbrains.webstore.entity.Profile;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
-  Optional<User> findUserByUsername(String username);
+  Optional<Profile> findProfileByUsername(String username);
 }

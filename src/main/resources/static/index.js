@@ -34,9 +34,9 @@
       templateUrl: 'checkout/checkout.html',
       controller: 'checkoutController'
     })
-    .when('/orders', {
-      templateUrl: 'orders/orders.html',
-      controller: 'ordersController'
+    .when('/profile', {
+      templateUrl: 'profile/profile.html',
+      controller: 'profileController'
     })
     .otherwise({
       redirectTo: '/'
@@ -59,7 +59,7 @@
 })();
 
 angular.module('webstore-front').controller('indexController',
-    function ($rootScope, $scope, $http, $localStorage) {
+    function ($rootScope, $scope, $http, $localStorage, $location) {
       const contextPath = 'http://localhost:8189/webstore';
 
       $scope.tryToAuth = function () {
@@ -93,6 +93,7 @@ angular.module('webstore-front').controller('indexController',
         if ($scope.user.password) {
           $scope.user.password = null;
         }
+        $location.path('/');
       };
 
       $scope.clearUser = function () {

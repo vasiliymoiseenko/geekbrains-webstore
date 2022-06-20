@@ -1,11 +1,11 @@
 package ru.geekbrains.webstore.controller;
 
-import static ru.geekbrains.webstore.mapper.UserMapper.USER_MAPPER;
+import static ru.geekbrains.webstore.mapper.ProfileMapper.PROFILE_MAPPER;
 
+import java.security.Principal;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -18,51 +18,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.geekbrains.webstore.dto.UserDto;
-import ru.geekbrains.webstore.entity.User;
+import ru.geekbrains.webstore.dto.ProfileDto;
 import ru.geekbrains.webstore.exception.DataValidationException;
-import ru.geekbrains.webstore.exception.ResourceNotFoundException;
-import ru.geekbrains.webstore.service.UserService;
+import ru.geekbrains.webstore.service.ProfileService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/users")
-public class UserController {
+@RequestMapping("/api/v1/profiles")
+public class ProfileController {
 
-  private UserService userService;
+  private ProfileService profileService;
+
+  @GetMapping("/me")
+  public ProfileDto getCurrentProfile(Principal principal) {
+    return PROFILE_MAPPER.fromProfile(profileService.findByUsername(principal.getName()));
+  }
 
   @GetMapping
-  public Page<UserDto> getAllUsers(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
-    return userService.findAll(pageIndex - 1, 10).map(USER_MAPPER::fromUser);
+  public Page<ProfileDto> getAllUsers(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+    return profileService.findAll(pageIndex - 1, 10).map(PROFILE_MAPPER::fromProfile);
   }
 
   @GetMapping("/{id}")
-  public UserDto GetUserById(@PathVariable Long id) {
-    return USER_MAPPER.fromUser(userService.findById(id));
+  public ProfileDto GetUserById(@PathVariable Long id) {
+    return PROFILE_MAPPER.fromProfile(profileService.findById(id));
   }
 
   @PostMapping
-  public UserDto saveUser(@RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      throw new DataValidationException(bindingResult.getAllErrors().stream()
-          .map(ObjectError::getDefaultMessage)
-          .collect(Collectors.toList()));
-    }
-    return USER_MAPPER.fromUser(userService.save(userDto));
+  public ProfileDto saveUser(@RequestBody ProfileDto profileDto) {
+    return PROFILE_MAPPER.fromProfile(profileService.save(profileDto));
   }
 
+
   @PutMapping
-  public UserDto updateUser(@RequestBody @Validated UserDto userDto, BindingResult bindingResult) {
+  public ProfileDto updateUser(@RequestBody @Validated ProfileDto profileDto, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       throw new DataValidationException(bindingResult.getAllErrors().stream()
           .map(ObjectError::getDefaultMessage)
           .collect(Collectors.toList()));
     }
-    return USER_MAPPER.fromUser(userService.update(userDto));
+    return PROFILE_MAPPER.fromProfile(profileService.update(profileDto));
   }
 
   @DeleteMapping("/{id}")
   public void deleteUser(@PathVariable Long id) {
-    userService.deleteById(id);
+    profileService.deleteById(id);
   }
 }

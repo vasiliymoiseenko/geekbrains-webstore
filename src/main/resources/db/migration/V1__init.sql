@@ -1,23 +1,38 @@
 DROP TABLE IF EXISTS public.users CASCADE;
 CREATE TABLE IF NOT EXISTS public.users
 (
-    id          BIGSERIAL                     NOT NULL,
-    username    character varying(255) UNIQUE NOT NULL,
-    password    character varying(255)        NOT NULL,
-    first_name  character varying(255)        NOT NULL,
-    middle_name character varying(255)        NOT NULL,
-    last_name   character varying(255)        NOT NULL,
-    email       character varying(255) UNIQUE NOT NULL,
-    phone       bigint UNIQUE                 NOT NULL,
-    created_at  timestamp without time zone,
-    updated_at  timestamp without time zone,
+    id         BIGSERIAL                     NOT NULL,
+    username   character varying(255) UNIQUE NOT NULL,
+    password   character varying(255)        NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     CONSTRAINT users_pkey PRIMARY KEY (id)
 );
-INSERT INTO public.users (username, password, first_name, middle_name, last_name, email, phone)
-VALUES ('User1', '$2y$10$VZCgR1yw9TenUaOkNtnk3eboZCF37OJ/mXIzM0AUQk9PcFsu1vfMi', 'John1', 'Johny1', 'Jonson1', 'email1@email.ru', 7999888665522),
-       ('User2', '$2y$10$fpeZ.gpe9TRlba6fMbS79OaQZW3qPUY4wK24Be3yOBTdUtIYa0w6e', 'John2', 'Johny2', 'Jonson2', 'email2@email.ru', 7999888665523),
-       ('User3', '$2y$10$Zbj34uxmdU9uzleAIZM53e1O0K4wmPmYuDgh5CJ309grnCEwK7lV2', 'John3', 'Johny3', 'Jonson3', 'email3@email.ru', 7999888665524),
-       ('User4', '$2y$10$2SBmvlwAWBcFvEDjuiXW5uFKxnoSUc7oo4xTjyOa5U79p.642Kiv6', 'John4', 'Johny4', 'Jonson4', 'email4@email.ru', 7999888665525);
+INSERT INTO public.users (username, password)
+VALUES ('User1', '$2y$10$VZCgR1yw9TenUaOkNtnk3eboZCF37OJ/mXIzM0AUQk9PcFsu1vfMi'),
+       ('User2', '$2y$10$fpeZ.gpe9TRlba6fMbS79OaQZW3qPUY4wK24Be3yOBTdUtIYa0w6e'),
+       ('User3', '$2y$10$Zbj34uxmdU9uzleAIZM53e1O0K4wmPmYuDgh5CJ309grnCEwK7lV2'),
+       ('User4', '$2y$10$2SBmvlwAWBcFvEDjuiXW5uFKxnoSUc7oo4xTjyOa5U79p.642Kiv6');
+
+DROP TABLE IF EXISTS public.profiles CASCADE;
+CREATE TABLE IF NOT EXISTS public.profiles
+(
+    id          BIGSERIAL                    NOT NULL,
+    first_name  character varying(80)        NOT NULL,
+    middle_name character varying(80)        NOT NULL,
+    last_name   character varying(80)        NOT NULL,
+    email       character varying(80) UNIQUE NOT NULL,
+    phone       bigint UNIQUE                NOT NULL,
+    CONSTRAINT profiles_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO public.profiles (first_name, middle_name, last_name, email, phone)
+VALUES ('John1', 'Johny1', 'Jonson1', 'email1@email.ru', 7999888665522),
+       ('John2', 'Johny2', 'Jonson2', 'email2@email.ru', 7999888665523),
+       ('John3', 'Johny3', 'Jonson3', 'email3@email.ru', 7999888665524),
+       ('John4', 'Johny4', 'Jonson4', 'email4@email.ru', 7999888665525);
+
+
 
 DROP TABLE IF EXISTS public.roles CASCADE;
 CREATE TABLE IF NOT EXISTS public.roles

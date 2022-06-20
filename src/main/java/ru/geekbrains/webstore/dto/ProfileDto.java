@@ -6,11 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import ru.geekbrains.webstore.entity.Role;
-import ru.geekbrains.webstore.entity.User;
 
 @Data
 @NoArgsConstructor
-public class UserDto {
+public class ProfileDto {
 
   private Long id;
 
@@ -21,6 +20,16 @@ public class UserDto {
   @NotNull(message = "User must have a password")
   @Length(min = 3, max = 255, message = "Password length must be 3-255 characters")
   private String password;
+
+  private String firstName;
+
+  private String middleName;
+
+  private String lastName;
+
+  private String email;
+
+  private Long phone;
 
   private List<Role> roles;
 }
