@@ -14,9 +14,9 @@
       templateUrl: 'products/products.html',
       controller: 'productsController'
     })
-    .when('/edit_product/:productId', {
-      templateUrl: 'update_product/update_product.html',
-      controller: 'updateProductController'
+    .when('/product_info/:productId', {
+      templateUrl: 'product_info/product_info.html',
+      controller: 'productInfoController'
     })
     .when('/add_product', {
       templateUrl: 'add_product/add_product.html',

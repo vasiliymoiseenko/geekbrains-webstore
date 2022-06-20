@@ -1,0 +1,46 @@
+<div>
+  <p></p>
+  <h3>Product Information</h3>
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img
+            src="..."
+            class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{product.title}}</h5>
+          <p class="card-text">{{'Price: ' + product.price}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br/><br/>
+  <div ng-repeat="c in product.comments">
+    <div class="card">
+      <div class="card-header">
+        Quote
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>{{c}}</p>
+          <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+    <br/>
+  </div>
+
+  <div ng-show="isCommentEnable">
+    <form novalidate ng-submit="writeComment()">
+      <input class="form-control" type="text" placeholder="Comment" ng-model="comment">
+      <br/>
+      <button type="submit" class="btn btn-primary">Comment</button>
+    </form>
+  </div>
+
+
+</div>

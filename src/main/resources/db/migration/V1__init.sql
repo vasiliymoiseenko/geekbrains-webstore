@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS public.order_items
     amount            int       NOT NULL,
     price_per_product bigint    NOT NULL,
     price             bigint    NOT NULL,
+    comment           varchar,
     created_at        timestamp without time zone,
     updated_at        timestamp without time zone,
     CONSTRAINT order_items_pkey PRIMARY KEY (id),

@@ -8,11 +8,13 @@ import ru.geekbrains.webstore.entity.Product;
 @NoArgsConstructor
 public class OrderItemDto {
 
+  private Long id;
   private Long productId;
   private String productTitle;
   private Integer amount;
   private Long pricePerProduct;
   private Long price;
+  private String comment;
 
   public OrderItemDto(Product product) {
     this.productId = product.getId();

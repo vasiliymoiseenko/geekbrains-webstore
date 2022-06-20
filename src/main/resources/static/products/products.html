@@ -37,8 +37,8 @@
           <td>{{p.id}}</td>
           <td>{{p.title}}</td>
           <td>{{p.price}}</td>
-          <td ng-show="isManager() || isAdmin()">
-            <button class="btn btn-primary" ng-click="goToEditPage(p.id)">Update</button>
+          <td>
+            <button class="btn btn-primary" ng-click="goToProductPage(p.id)">Info</button>
           </td>
           <td ng-show="isManager() || isAdmin()">
             <button class="btn btn-primary" ng-click="deleteProduct(p)">Delete</button>

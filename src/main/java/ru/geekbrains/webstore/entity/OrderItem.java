@@ -43,6 +43,9 @@ public class OrderItem {
   @Column(name = "price")
   private Long price;
 
+  @Column(name = "comment")
+  private String comment;
+  
   @CreationTimestamp
   @Column(name = "created_at")
   private LocalDateTime createdAt;

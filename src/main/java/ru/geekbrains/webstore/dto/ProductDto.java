@@ -1,5 +1,6 @@
 package ru.geekbrains.webstore.dto;
 
+import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
@@ -19,4 +20,6 @@ public class ProductDto {
   @NotNull(message = "Product must have a price")
   @Min(value = 1, message = "Price must be greater than 0")
   private Long price;
+
+  private List<String> comments;
 }

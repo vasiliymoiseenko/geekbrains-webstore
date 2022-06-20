@@ -28,8 +28,8 @@ angular.module('webstore-front').controller('productsController',
         });
       };
 
-      $scope.goToEditPage = function (productId) {
-        $location.path('/edit_product/' + productId);
+      $scope.goToProductPage = function (productId) {
+        $location.path('/product_info/' + productId);
       }
 
       $scope.addToCart = function (productId) {
