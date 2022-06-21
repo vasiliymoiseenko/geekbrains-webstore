@@ -3,9 +3,8 @@ package ru.geekbrains.webstore.controller;
 import static ru.geekbrains.webstore.mapper.OrderMapper.ORDER_MAPPER;
 
 import java.security.Principal;
+import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,18 +23,9 @@ public class OrderController {
 
   private OrderService orderService;
 
-  /*@GetMapping
-  public Page<OrderDto> getAllOrders(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
-    return orderService.findAll(pageIndex - 1, 10).map(ORDER_MAPPER::fromOrder);
-  }
-*/
-
   @GetMapping
-  public ResponseEntity<?> getAllOrders(Principal principal) {
-    if (principal == null) {
-      return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-    }
-    return new ResponseEntity<>(ORDER_MAPPER.toOrderDtoList(orderService.findAllByUsername(principal.getName())), HttpStatus.OK);
+  public List<OrderDto> getAllOrders(Principal principal) {
+    return ORDER_MAPPER.toOrderDtoList(orderService.findAllByUsername(principal.getName()));
   }
 
   @GetMapping("/{id}")
@@ -44,11 +34,8 @@ public class OrderController {
   }
 
   @PostMapping
-  public ResponseEntity<?> saveOrder(@RequestBody OrderDetailsDto orderDetailsDto, Principal principal) {
-    if (principal == null) {
-      return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-    }
-    return new ResponseEntity<>(ORDER_MAPPER.fromOrder(orderService.createOrder(orderDetailsDto, principal.getName())), HttpStatus.OK);
+  public OrderDto saveOrder(@RequestBody OrderDetailsDto orderDetailsDto, Principal principal) {
+    return ORDER_MAPPER.fromOrder(orderService.createOrder(orderDetailsDto, principal.getName()));
   }
 
   @DeleteMapping("/{id}")
