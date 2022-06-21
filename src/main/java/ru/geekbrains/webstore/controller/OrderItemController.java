@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.geekbrains.webstore.dto.CommentDto;
 import ru.geekbrains.webstore.dto.OrderItemDto;
 import ru.geekbrains.webstore.service.OrderItemService;
 
@@ -26,7 +27,7 @@ public class OrderItemController {
   }
 
   @PutMapping
-  public OrderItemDto updateOrderItem(@RequestBody OrderItemDto orderItemDto) {
-    return ORDER_ITEM_MAPPER.fromOrderItem(orderItemService.update(orderItemDto));
+  public OrderItemDto updateOrderItem(@RequestBody CommentDto commentDto, Principal principal) {
+    return ORDER_ITEM_MAPPER.fromOrderItem(orderItemService.updateComment(commentDto, principal));
   }
 }

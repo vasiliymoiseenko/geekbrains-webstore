@@ -113,6 +113,18 @@ VALUES (2, 'TV', 1000.0),
        (1, 'Fridge', 1000.0),
        (1, 'Dishwasher', 300.00);
 
+DROP TABLE IF EXISTS public.comments CASCADE;
+CREATE TABLE IF NOT EXISTS public.comments
+(
+    id         BIGSERIAL         NOT NULL,
+    user_id    bigint            NOT NULL,
+    text       character varying NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    CONSTRAINT comments_pkey PRIMARY KEY (id),
+    CONSTRAINT user_fkey FOREIGN KEY (user_id) REFERENCES public.users (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 DROP TABLE IF EXISTS public.orders CASCADE;
 CREATE TABLE IF NOT EXISTS public.orders
 (
@@ -136,12 +148,13 @@ CREATE TABLE IF NOT EXISTS public.order_items
     amount            int       NOT NULL,
     price_per_product bigint    NOT NULL,
     price             bigint    NOT NULL,
-    comment           varchar,
+    comment_id        bigint,
     created_at        timestamp without time zone,
     updated_at        timestamp without time zone,
     CONSTRAINT order_items_pkey PRIMARY KEY (id),
     CONSTRAINT product_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT order_fkey FOREIGN KEY (order_id) REFERENCES public.orders (id) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT order_fkey FOREIGN KEY (order_id) REFERENCES public.orders (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT comments_fkey FOREIGN KEY (comment_id) REFERENCES public.comments (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 

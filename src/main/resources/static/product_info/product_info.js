@@ -1,5 +1,6 @@
 angular.module('webstore-front').controller('productInfoController',
     function ($scope, $http, $routeParams) {
+
       const contextPath = 'http://localhost:8189/webstore/';
       const apiPath = 'api/v1/products/';
 
@@ -22,13 +23,13 @@ angular.module('webstore-front').controller('productInfoController',
           console.log(response.data);
           $scope.orderItem = response.data;
           $scope.isCommentEnable = $scope.orderItem.id != null;
-          console.log($scope.isCommentEnable);
+          console.log($scope.orderItem.id);
         });
       };
 
       $scope.writeComment = function () {
-        $scope.orderItem.comment = $scope.comment;
-        $http.put(contextPath + 'api/v1/order_items', $scope.orderItem)
+        $scope.comment.orderItemId = $scope.orderItem.id;
+        $http.put(contextPath + 'api/v1/order_items', $scope.comment)
         .then(function (response) {
           console.log(response.data);
           $scope.loadProduct();

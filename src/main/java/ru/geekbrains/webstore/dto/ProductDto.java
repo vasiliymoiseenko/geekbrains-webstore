@@ -21,5 +21,5 @@ public class ProductDto {
   @Min(value = 1, message = "Price must be greater than 0")
   private Long price;
 
-  private List<String> comments;
+  private List<CommentDto> comments;
 }

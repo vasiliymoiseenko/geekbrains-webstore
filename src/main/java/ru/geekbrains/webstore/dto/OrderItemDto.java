@@ -14,7 +14,7 @@ public class OrderItemDto {
   private Integer amount;
   private Long pricePerProduct;
   private Long price;
-  private String comment;
+  private CommentDto commentDto;
 
   public OrderItemDto(Product product) {
     this.productId = product.getId();

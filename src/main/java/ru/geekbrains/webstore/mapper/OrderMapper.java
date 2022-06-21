@@ -15,7 +15,6 @@ import ru.geekbrains.webstore.dto.OrderDto;
 import ru.geekbrains.webstore.dto.OrderItemDto;
 import ru.geekbrains.webstore.entity.Order;
 import ru.geekbrains.webstore.entity.OrderItem;
-import ru.geekbrains.webstore.exception.ResourceNotFoundException;
 import ru.geekbrains.webstore.service.ProductService;
 import ru.geekbrains.webstore.service.UserService;
 
@@ -46,8 +45,7 @@ public interface OrderMapper {
 
   @AfterMapping
   default void toOrder(@MappingTarget Order order, OrderDto orderDto, @Context UserService userService) {
-    order.setUser(userService.findByUsername(orderDto.getUsername())
-        .orElseThrow(() -> new ResourceNotFoundException("Username = " + orderDto.getUsername() + " not found")));
+    order.setUser(userService.findByUsername(orderDto.getUsername()));
   }
 
   List<OrderDto> toOrderDtoList(List<Order> orderList);
