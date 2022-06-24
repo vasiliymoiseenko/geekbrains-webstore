@@ -1,4 +1,4 @@
-package ru.geekbrains.webstore.core.entity;
+package ru.geekbrains.webstore.auth.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,11 +39,11 @@ public class User {
   @Column(name = "password")
   private String password;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Order> orders = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Comment> comments = new ArrayList<>();
+  private List<Comment> comments = new ArrayList<>();*/
 
   @ManyToMany
   @JoinTable(name = "users_roles",

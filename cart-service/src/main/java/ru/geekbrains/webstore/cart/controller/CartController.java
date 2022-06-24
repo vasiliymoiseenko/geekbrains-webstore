@@ -16,7 +16,6 @@ import ru.geekbrains.webstore.cart.util.CartUuid;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/cart")
-@CrossOrigin("*")
 public class CartController {
 
   private CartService cartService;
@@ -51,5 +50,10 @@ public class CartController {
   @GetMapping("{uuid}/remove/{id}")
   public void removeProduct(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long id) {
     cartService.remove(cartService.getCartId(username, uuid), id);
+  }
+
+  @GetMapping("/{uuid}/clear")
+  public void clear(@RequestHeader(required = false) String username, @PathVariable String uuid) {
+    cartService.clear(cartService.getCartId(username, uuid));
   }
 }

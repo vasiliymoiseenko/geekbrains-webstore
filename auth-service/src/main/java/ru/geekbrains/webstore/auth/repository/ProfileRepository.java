@@ -1,6 +1,6 @@
-package ru.geekbrains.webstore.core.repository;
+package ru.geekbrains.webstore.auth.repository;
 
-import ru.geekbrains.webstore.core.entity.Profile;
+import ru.geekbrains.webstore.auth.entity.Profile;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package ru.geekbrains.webstore.core.entity;
+package ru.geekbrains.webstore.auth.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

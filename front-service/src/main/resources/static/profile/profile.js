@@ -19,7 +19,7 @@ angular.module('webstore-front').controller('profileController',
 
       $scope.loadMyProfile = function () {
         $http({
-          url: contextPath + 'api/v1/profiles/me',
+          url: 'http://localhost:5555/auth/api/v1/profiles/me',
           method: 'GET'
         }).then(function (response) {
           console.log(response.data)

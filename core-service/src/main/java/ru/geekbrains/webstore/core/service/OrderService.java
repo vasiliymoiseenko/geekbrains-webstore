@@ -1,5 +1,6 @@
 package ru.geekbrains.webstore.core.service;
 
+import java.util.ArrayList;
 import ru.geekbrains.webstore.core.entity.Order;
 import ru.geekbrains.webstore.core.mapper.OrderMapper;
 import java.security.Principal;
@@ -22,7 +23,6 @@ import ru.geekbrains.webstore.core.repository.OrderRepository;
 public class OrderService {
 
   private OrderRepository orderRepository;
-  private UserService userService;
   private ProductService productService;
   private CartServiceIntegration cartServiceIntegration;
 
@@ -45,21 +45,22 @@ public class OrderService {
 
   @Transactional
   public Order save(OrderDto orderDto) {
-    Order order = OrderMapper.ORDER_MAPPER.toOrder(orderDto, userService, productService);
+    Order order = OrderMapper.ORDER_MAPPER.toOrder(orderDto, productService);
     order.getItems().forEach(i -> i.setOrder(order));
     return orderRepository.save(order);
   }
 
-  public Order createOrder(OrderDetailsDto orderDetailsDto, Principal principal) {
+  public Order createOrder(OrderDetailsDto orderDetailsDto, String username) {
     OrderDto orderDto = new OrderDto();
-    CartDto cart = cartServiceIntegration.getUserCartDto(principal);
+    CartDto cart = cartServiceIntegration.getUserCartDto(username);
 
-    orderDto.setUsername(principal.getName());
+    orderDto.setUsername(username);
     orderDto.setPhone(orderDetailsDto.getPhone());
     orderDto.setAddress(orderDetailsDto.getAddress());
     orderDto.setPrice(cart.getTotalPrice());
+    orderDto.setItems(new ArrayList<>());
     orderDto.getItems().addAll(cart.getItems());
-    cartServiceIntegration.clear(principal);
+    cartServiceIntegration.clearUserCart(username);
 
     return save(orderDto);
   }

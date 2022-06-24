@@ -61,7 +61,7 @@
 angular.module('webstore-front').controller('indexController',
     function ($rootScope, $scope, $http, $localStorage, $location) {
       $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/core/auth', $scope.user)
+        $http.post('http://localhost:5555/auth/api/v1/auth', $scope.user)
         .then(function successCallback(response) {
           if (response.data.token) {
             $http.defaults.headers.common.Authorization = 'Bearer '

@@ -1,9 +1,9 @@
 package ru.geekbrains.webstore.core.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestHeader;
 import ru.geekbrains.webstore.core.mapper.OrderMapper;
 import ru.geekbrains.webstore.core.service.OrderService;
-import java.security.Principal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,14 +19,13 @@ import ru.geekbrains.webstore.api.dto.OrderDto;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/orders")
-@CrossOrigin("*")
 public class OrderController {
 
   private OrderService orderService;
 
   @GetMapping
-  public List<OrderDto> getAllOrders(Principal principal) {
-    return OrderMapper.ORDER_MAPPER.toOrderDtoList(orderService.findAllByUsername(principal.getName()));
+  public List<OrderDto> getAllOrders(@RequestHeader String username) {
+    return OrderMapper.ORDER_MAPPER.toOrderDtoList(orderService.findAllByUsername(username));
   }
 
   @GetMapping("/{id}")
@@ -35,8 +34,8 @@ public class OrderController {
   }
 
   @PostMapping
-  public OrderDto saveOrder(@RequestBody OrderDetailsDto orderDetailsDto, Principal principal) {
-    return OrderMapper.ORDER_MAPPER.fromOrder(orderService.createOrder(orderDetailsDto, principal));
+  public OrderDto saveOrder(@RequestBody OrderDetailsDto orderDetailsDto, @RequestHeader String username) {
+    return OrderMapper.ORDER_MAPPER.fromOrder(orderService.createOrder(orderDetailsDto, username));
   }
 
   @DeleteMapping("/{id}")

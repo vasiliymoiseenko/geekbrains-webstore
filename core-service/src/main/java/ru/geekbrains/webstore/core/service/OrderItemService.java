@@ -21,13 +21,11 @@ public class OrderItemService {
   private OrderItemRepository orderItemRepository;
   private OrderService orderService;
 
-  private UserService userService;
-
   public OrderItem updateComment(CommentDto commentDto, Principal principal) {
     Long id = commentDto.getOrderItemId();
     OrderItem orderItem = orderItemRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("OrderItem id = " + id + " not found"));
     commentDto.setUsername(principal.getName());
-    Comment comment = CommentMapper.COMMENT_MAPPER.toComment(commentDto, userService, this);
+    Comment comment = CommentMapper.COMMENT_MAPPER.toComment(commentDto, this);
     orderItem.setComment(comment);
     return orderItemRepository.save(orderItem);
   }

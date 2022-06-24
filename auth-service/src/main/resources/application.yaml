@@ -1,7 +1,7 @@
 server:
-  port: 8189
+  port: 8193
   servlet:
-    context-path: /webstore-core
+    context-path: /webstore-auth
 spring:
   jpa:
     database: POSTGRESQL
@@ -13,6 +13,6 @@ spring:
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
-integration:
-  cart-service:
-    url: http://localhost:8191/webstore-cart
+jwt:
+  secret: sdlfhjklasdhfkjasbdfklasdhfjklasdhfjklasdhf
+  lifetime: 36000000

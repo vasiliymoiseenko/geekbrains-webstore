@@ -1,7 +1,8 @@
-package ru.geekbrains.webstore.core.controller;
+package ru.geekbrains.webstore.auth.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import ru.geekbrains.webstore.core.service.UserService;
+import ru.geekbrains.webstore.auth.service.UserService;
+import ru.geekbrains.webstore.auth.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.api.auth.AuthRequest;
 import ru.geekbrains.webstore.api.auth.AuthResponse;
 import ru.geekbrains.webstore.api.exception.response.ErrorResponse;
-import ru.geekbrains.webstore.core.util.jwt.JwtTokenUtil;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AuthController {
 
   private final UserService userService;
   private final JwtTokenUtil jwtTokenUtil;
   private final AuthenticationManager authenticationManager;
 
-  @PostMapping("/auth")
+  @PostMapping("api/v1/auth")
   public ResponseEntity<?> createAuthToken(@RequestBody AuthRequest authRequest) {
     try {
       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));

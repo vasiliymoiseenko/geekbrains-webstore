@@ -1,9 +1,10 @@
-package ru.geekbrains.webstore.core.service;
+package ru.geekbrains.webstore.auth.service;
 
-import ru.geekbrains.webstore.core.entity.Profile;
-import ru.geekbrains.webstore.core.entity.Role;
-import ru.geekbrains.webstore.core.mapper.ProfileMapper;
-import ru.geekbrains.webstore.core.repository.ProfileRepository;
+import ru.geekbrains.webstore.auth.entity.Profile;
+import ru.geekbrains.webstore.auth.entity.Role;
+import ru.geekbrains.webstore.auth.mapper.ProfileMapper;
+import ru.geekbrains.webstore.auth.repository.ProfileRepository;
+import ru.geekbrains.webstore.auth.repository.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.webstore.api.dto.ProfileDto;
 import ru.geekbrains.webstore.api.exception.ResourceNotFoundException;
-import ru.geekbrains.webstore.core.repository.RoleRepository;
 
 @Service
 @AllArgsConstructor

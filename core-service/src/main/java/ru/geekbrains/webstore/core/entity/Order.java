@@ -30,9 +30,8 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+  @Column(name = "username")
+  private String username;
 
   @Column(name = "phone")
   private String phone;

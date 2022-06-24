@@ -1,4 +1,4 @@
-package ru.geekbrains.webstore.core.entity;
+package ru.geekbrains.webstore.auth.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

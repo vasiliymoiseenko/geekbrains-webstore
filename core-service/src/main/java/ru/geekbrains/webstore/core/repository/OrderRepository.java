@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-  @Query("select o from Order o where o.user.username = :username")
+  @Query("select o from Order o where o.username = :username")
   List<Order> findAllByUsername(String username);
 
 }

@@ -26,7 +26,6 @@ import ru.geekbrains.webstore.api.dto.ProductDto;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/products")
-@CrossOrigin("*")
 public class ProductController {
 
   private ProductService productService;

@@ -11,7 +11,7 @@ import ru.geekbrains.webstore.api.dto.ProductDto;
 public class Cart {
 
   private final List<OrderItemDto> items = new ArrayList<>();
-  private Long price = 0L;
+  private Long totalPrice = 0L;
 
   public void add(ProductDto product) {
     for (OrderItemDto item : items) {
@@ -47,7 +47,7 @@ public class Cart {
 
   public void clear() {
     items.clear();
-    price = 0L;
+    totalPrice = 0L;
   }
 
   public void merge(Cart another) {
@@ -69,7 +69,7 @@ public class Cart {
   }
 
   private void recalculate() {
-    price = 0L;
-    items.forEach(i -> price += i.getPrice());
+    totalPrice = 0L;
+    items.forEach(i -> totalPrice += i.getPrice());
   }
 }

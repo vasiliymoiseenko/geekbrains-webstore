@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>core-service</artifactId>
+  <artifactId>auth-service</artifactId>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -27,6 +27,10 @@
       <version>42.3.6</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>ru.geekbrains.webstore</groupId>
@@ -39,11 +43,6 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
       <version>1.4.2.Final</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-webflux</artifactId>
     </dependency>
 
 
@@ -80,4 +79,5 @@
 
     </plugins>
   </build>
+
 </project>

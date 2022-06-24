@@ -1,9 +1,9 @@
-package ru.geekbrains.webstore.core.repository;
+package ru.geekbrains.webstore.auth.repository;
 
-import ru.geekbrains.webstore.core.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import ru.geekbrains.webstore.auth.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

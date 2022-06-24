@@ -116,27 +116,27 @@ VALUES (2, 'TV', 1000.0),
 DROP TABLE IF EXISTS public.comments CASCADE;
 CREATE TABLE IF NOT EXISTS public.comments
 (
-    id         BIGSERIAL         NOT NULL,
-    user_id    bigint            NOT NULL,
-    text       character varying NOT NULL,
+    id         BIGSERIAL              NOT NULL,
+    username   character varying(255) NOT NULL,
+    text       character varying      NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     CONSTRAINT comments_pkey PRIMARY KEY (id),
-    CONSTRAINT user_fkey FOREIGN KEY (user_id) REFERENCES public.users (id) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT user_fkey FOREIGN KEY (username) REFERENCES public.users (username) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS public.orders CASCADE;
 CREATE TABLE IF NOT EXISTS public.orders
 (
     id         BIGSERIAL              NOT NULL,
-    user_id    bigint                 NOT NULL,
+    username   character varying(255) NOT NULL,
     phone      character varying(255) NOT NULL,
     address    character varying(255) NOT NULL,
     price      bigint                 NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     CONSTRAINT orders_pkey PRIMARY KEY (id),
-    CONSTRAINT user_fkey FOREIGN KEY (user_id) REFERENCES public.users (id) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT user_fkey FOREIGN KEY (username) REFERENCES public.users (username) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS public.order_items CASCADE;

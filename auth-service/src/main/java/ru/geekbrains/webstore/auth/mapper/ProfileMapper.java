@@ -1,6 +1,6 @@
-package ru.geekbrains.webstore.core.mapper;
+package ru.geekbrains.webstore.auth.mapper;
 
-import ru.geekbrains.webstore.core.entity.Profile;
+import ru.geekbrains.webstore.auth.entity.Profile;
 import java.util.List;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

@@ -1,9 +1,9 @@
-package ru.geekbrains.webstore.core.controller;
+package ru.geekbrains.webstore.auth.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import ru.geekbrains.webstore.core.exception.DataValidationException;
-import ru.geekbrains.webstore.core.mapper.ProfileMapper;
-import ru.geekbrains.webstore.core.service.ProfileService;
+import org.springframework.web.bind.annotation.RequestHeader;
+import ru.geekbrains.webstore.auth.mapper.ProfileMapper;
+import ru.geekbrains.webstore.auth.service.ProfileService;
 import java.security.Principal;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -25,14 +25,13 @@ import ru.geekbrains.webstore.api.dto.ProfileDto;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/profiles")
-@CrossOrigin("*")
 public class ProfileController {
 
   private ProfileService profileService;
 
   @GetMapping("/me")
-  public ProfileDto getCurrentProfile(Principal principal) {
-    return ProfileMapper.PROFILE_MAPPER.fromProfile(profileService.findByUsername(principal.getName()));
+  public ProfileDto getCurrentProfile(@RequestHeader String username) {
+    return ProfileMapper.PROFILE_MAPPER.fromProfile(profileService.findByUsername(username));
   }
 
   @GetMapping
@@ -52,12 +51,7 @@ public class ProfileController {
 
 
   @PutMapping
-  public ProfileDto updateUser(@RequestBody @Validated ProfileDto profileDto, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      throw new DataValidationException(bindingResult.getAllErrors().stream()
-          .map(ObjectError::getDefaultMessage)
-          .collect(Collectors.toList()));
-    }
+  public ProfileDto updateUser(@RequestBody ProfileDto profileDto) {
     return ProfileMapper.PROFILE_MAPPER.fromProfile(profileService.update(profileDto));
   }
 

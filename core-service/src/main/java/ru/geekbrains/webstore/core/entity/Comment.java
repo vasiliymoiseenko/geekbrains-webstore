@@ -26,8 +26,8 @@ public class Comment {
   @Column(name = "id")
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private User user;
+  @Column(name = "username")
+  private String username;
 
   @OneToOne(fetch = FetchType.LAZY)
   private OrderItem orderItem;

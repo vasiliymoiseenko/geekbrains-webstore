@@ -1,19 +1,19 @@
-package ru.geekbrains.webstore.core.service;
+package ru.geekbrains.webstore.auth.service;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ru.geekbrains.webstore.core.entity.Role;
-import ru.geekbrains.webstore.core.entity.User;
+import ru.geekbrains.webstore.auth.entity.Role;
+import ru.geekbrains.webstore.auth.entity.User;
+import ru.geekbrains.webstore.auth.repository.UserRepository;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.webstore.api.exception.ResourceNotFoundException;
-import ru.geekbrains.webstore.core.repository.UserRepository;
 
 @Service
 @AllArgsConstructor

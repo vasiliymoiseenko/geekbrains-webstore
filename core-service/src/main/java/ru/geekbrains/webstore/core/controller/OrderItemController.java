@@ -17,7 +17,6 @@ import ru.geekbrains.webstore.api.dto.OrderItemDto;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/order_items")
-@CrossOrigin("*")
 public class OrderItemController {
 
   private OrderItemService orderItemService;
