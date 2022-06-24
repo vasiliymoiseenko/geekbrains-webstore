@@ -4,7 +4,7 @@ server:
     context-path: /webstore-cart
 integration:
   product-service:
-    url: http://localhost:8189/webstore
+    url: http://localhost:8189/webstore-core
 utils:
   cart:
     prefix: WEBSTORE_CART_

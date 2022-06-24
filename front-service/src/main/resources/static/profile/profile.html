@@ -1,0 +1,62 @@
+<div>
+  <p></p>
+  <h3>Profile</h3>
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img
+            src="https://images.generated.photos/TqzNvrfBwxoxWaqt0ovYoN8JliOCgdRDTbkn4odlMNk/rs:fit:512:512/wm:0.95:sowe:18:18:0.33/czM6Ly9pY29uczgu/Z3Bob3Rvcy1wcm9k/LnBob3Rvcy92M18w/OTQ1MTkzLmpwZw.jpg"
+            class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{userProfile.username}}</h5>
+          <p class="card-text">{{'First name: ' + userProfile.firstName}}</p>
+          <p class="card-text">{{'Middle name: ' + userProfile.middleName}}</p>
+          <p class="card-text">{{'Last name: ' + userProfile.lastName}}</p>
+          <p class="card-text">{{'Email: ' + userProfile.email}}</p>
+          <p class="card-text">{{'Phone: ' + userProfile.phone}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br/><br/>
+
+  <table class="table align-middle">
+    <thread scope="col">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Products</th>
+        <th scope="col">Total price</th>
+      </tr>
+    </thread>
+    <tbody>
+    <tr ng-repeat="ord in orders">
+      <th scope="row">{{ord.id}}</th>
+      <td>
+        <table class="table align-middle table-bordered">
+          <thread>
+            <tr>
+              <th scope="col">Id product</th>
+              <th scope="col">Title</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thread>
+          <tbody>
+          <tr ng-repeat="i in ord.items">
+            <td>{{i.productId}}</td>
+            <td>{{i.productTitle}}</td>
+            <td>{{i.amount}}</td>
+            <td>{{i.pricePerProduct}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <th scope="row">{{ord.price}}</th>
+    </tr>
+    </tbody>
+  </table>
+</div>
