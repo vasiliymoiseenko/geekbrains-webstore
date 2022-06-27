@@ -1,5 +1,6 @@
 package ru.geekbrains.webstore.api.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderDto {
@@ -8,18 +9,18 @@ public class OrderDto {
   private String username;
   private String phone;
   private String address;
-  private Long Price;
+  private BigDecimal price;
   private List<OrderItemDto> items;
 
   public OrderDto() {
   }
 
-  public OrderDto(Long id, String username, String phone, String address, Long price, List<OrderItemDto> items) {
+  public OrderDto(Long id, String username, String phone, String address, BigDecimal price, List<OrderItemDto> items) {
     this.id = id;
     this.username = username;
     this.phone = phone;
     this.address = address;
-    Price = price;
+    this.price = price;
     this.items = items;
   }
 
@@ -55,12 +56,12 @@ public class OrderDto {
     this.address = address;
   }
 
-  public Long getPrice() {
-    return Price;
+  public BigDecimal getPrice() {
+    return price;
   }
 
-  public void setPrice(Long price) {
-    Price = price;
+  public void setPrice(BigDecimal price) {
+    this.price = price;
   }
 
   public List<OrderItemDto> getItems() {

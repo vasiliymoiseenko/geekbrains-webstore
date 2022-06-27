@@ -1,34 +1,37 @@
 package ru.geekbrains.webstore.api.dto;
 
+import java.math.BigDecimal;
+
 public class OrderItemDto {
 
   private Long id;
   private Long productId;
   private String productTitle;
-  private Integer amount;
-  private Long pricePerProduct;
-  private Long price;
+  private Integer quantity;
+  private BigDecimal pricePerProduct;
+  private BigDecimal price;
   private CommentDto commentDto;
 
   public OrderItemDto() {
   }
 
-  public OrderItemDto(Long id, Long productId, String productTitle, Integer amount, Long pricePerProduct, Long price, CommentDto commentDto) {
+  public OrderItemDto(Long id, Long productId, String productTitle, Integer quantity, BigDecimal pricePerProduct, BigDecimal price,
+      CommentDto commentDto) {
     this.id = id;
     this.productId = productId;
     this.productTitle = productTitle;
-    this.amount = amount;
+    this.quantity = quantity;
     this.pricePerProduct = pricePerProduct;
     this.price = price;
     this.commentDto = commentDto;
   }
 
   public void changeQuantity(int delta) {
-    amount += delta;
-    if (amount <= 0) {
-      amount = 0;
+    quantity += delta;
+    if (quantity <= 0) {
+      quantity = 0;
     }
-    price = pricePerProduct * amount;
+    price = pricePerProduct.multiply(BigDecimal.valueOf(quantity));
   }
 
   public Long getId() {
@@ -55,27 +58,27 @@ public class OrderItemDto {
     this.productTitle = productTitle;
   }
 
-  public Integer getAmount() {
-    return amount;
+  public Integer getQuantity() {
+    return quantity;
   }
 
-  public void setAmount(Integer amount) {
-    this.amount = amount;
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
   }
 
-  public Long getPricePerProduct() {
+  public BigDecimal getPricePerProduct() {
     return pricePerProduct;
   }
 
-  public void setPricePerProduct(Long pricePerProduct) {
+  public void setPricePerProduct(BigDecimal pricePerProduct) {
     this.pricePerProduct = pricePerProduct;
   }
 
-  public Long getPrice() {
+  public BigDecimal getPrice() {
     return price;
   }
 
-  public void setPrice(Long price) {
+  public void setPrice(BigDecimal price) {
     this.price = price;
   }
 

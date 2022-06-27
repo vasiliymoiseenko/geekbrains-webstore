@@ -1,5 +1,6 @@
 package ru.geekbrains.webstore.core.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,14 +37,14 @@ public class OrderItem {
   @JoinColumn(name = "product_id")
   private Product product;
 
-  @Column(name = "amount")
-  private Integer amount;
+  @Column(name = "quantity")
+  private Integer quantity;
 
   @Column(name = "price_per_product")
-  private Long pricePerProduct;
+  private BigDecimal pricePerProduct;
 
   @Column(name = "price")
-  private Long price;
+  private BigDecimal price;
 
   @OneToOne(
       fetch = FetchType.LAZY,

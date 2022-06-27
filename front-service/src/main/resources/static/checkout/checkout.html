@@ -14,14 +14,16 @@
     <tr ng-repeat="i in cart.items">
       <td>{{i.productTitle}}</td>
       <td>{{i.amount}}</td>
-      <td>{{i.pricePerProduct + ' X ' + i.amount + ' = ' + i.price}}</td>
-
+      <td>{{i.pricePerProduct + ' X ' + i.quantity + ' = ' + i.price}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td><b>{{'Total price: ' + cart.totalPrice}}</b></td>
     </tr>
     </tbody>
   </table>
 
-  <p></p>
-  <h2>Total price {{cart.price}}</h2>
   <p></p>
   <h3>Order details</h3>
   <form novalidate ng-submit="createOrder()">

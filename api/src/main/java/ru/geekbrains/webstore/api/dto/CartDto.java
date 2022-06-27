@@ -1,11 +1,12 @@
 package ru.geekbrains.webstore.api.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CartDto {
 
   private List<OrderItemDto> items;
-  private Long totalPrice;
+  private BigDecimal totalPrice;
 
   public List<OrderItemDto> getItems() {
     return items;
@@ -15,18 +16,18 @@ public class CartDto {
     this.items = items;
   }
 
-  public Long getTotalPrice() {
+  public BigDecimal getTotalPrice() {
     return totalPrice;
   }
 
-  public void setTotalPrice(Long totalPrice) {
+  public void setTotalPrice(BigDecimal totalPrice) {
     this.totalPrice = totalPrice;
   }
 
   public CartDto() {
   }
 
-  public CartDto(List<OrderItemDto> items, Long totalPrice) {
+  public CartDto(List<OrderItemDto> items, BigDecimal totalPrice) {
     this.items = items;
     this.totalPrice = totalPrice;
   }

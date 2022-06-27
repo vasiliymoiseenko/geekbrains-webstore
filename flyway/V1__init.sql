@@ -23,7 +23,9 @@ CREATE TABLE IF NOT EXISTS public.profiles
     last_name   character varying(80)        NOT NULL,
     email       character varying(80) UNIQUE NOT NULL,
     phone       bigint UNIQUE                NOT NULL,
-    CONSTRAINT profiles_pkey PRIMARY KEY (id)
+    CONSTRAINT profiles_pkey PRIMARY KEY (id),
+    CONSTRAINT users_fkey FOREIGN KEY (id) REFERENCES public.users (id)
+
 );
 
 INSERT INTO public.profiles (first_name, middle_name, last_name, email, phone)
@@ -84,7 +86,7 @@ CREATE TABLE IF NOT EXISTS public.products
 (
     id          BIGSERIAL                     NOT NULL,
     category_id bigint                        NOT NULL,
-    price       bigint                        NOT NULL,
+    price       numeric                       NOT NULL,
     title       character varying(255) UNIQUE NOT NULL,
     created_at  timestamp without time zone,
     updated_at  timestamp without time zone,
@@ -132,7 +134,7 @@ CREATE TABLE IF NOT EXISTS public.orders
     username   character varying(255) NOT NULL,
     phone      character varying(255) NOT NULL,
     address    character varying(255) NOT NULL,
-    price      bigint                 NOT NULL,
+    price      numeric                NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     CONSTRAINT orders_pkey PRIMARY KEY (id),
@@ -145,9 +147,9 @@ CREATE TABLE IF NOT EXISTS public.order_items
     id                BIGSERIAL NOT NULL,
     order_id          bigint    NOT NULL,
     product_id        bigint    NOT NULL,
-    amount            int       NOT NULL,
-    price_per_product bigint    NOT NULL,
-    price             bigint    NOT NULL,
+    quantity          int       NOT NULL,
+    price_per_product numeric   NOT NULL,
+    price             numeric   NOT NULL,
     comment_id        bigint,
     created_at        timestamp without time zone,
     updated_at        timestamp without time zone,

@@ -16,19 +16,22 @@
       <td>{{i.productTitle}}</td>
       <td>
         <button class="btn btn-primary" ng-click="decrementItem(i.productId)">-</button>
-        {{i.amount}}
+        {{i.quantity}}
         <button class="btn btn-primary" ng-click="incrementItem(i.productId)">+</button>
       </td>
-      <td>{{i.priceByProduct + ' X ' + i.amount + ' = ' + i.price}}</td>
+      <td>{{i.pricePerProduct + ' X ' + i.quantity + ' = ' + i.price}}</td>
       <td>
         <button class="btn btn-danger" ng-click="removeFromCart(i.productId)">Remove</button>
       </td>
     </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td><b>{{'Total price: ' + cart.totalPrice}}</b></td>
+    </tr>
     </tbody>
   </table>
 
-  <p></p>
-  <h2>Total price {{cart.price}}</h2>
   <p></p>
   <button class="btn btn-primary" ng-click="checkOut()" ng-show="isUserLoggedIn() && cart.items.length > 0">Checkout</button>
   <button class="btn btn-secondary" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn() && cart.items.length > 0">Checkout</button>

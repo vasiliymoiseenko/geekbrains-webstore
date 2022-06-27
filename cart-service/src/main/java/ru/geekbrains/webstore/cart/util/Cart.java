@@ -1,5 +1,6 @@
 package ru.geekbrains.webstore.cart.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +12,7 @@ import ru.geekbrains.webstore.api.dto.ProductDto;
 public class Cart {
 
   private final List<OrderItemDto> items = new ArrayList<>();
-  private Long totalPrice = 0L;
+  private BigDecimal totalPrice = BigDecimal.ZERO;
 
   public void add(ProductDto product) {
     for (OrderItemDto item : items) {
@@ -32,7 +33,7 @@ public class Cart {
       if (item.getProductId().equals(productId)) {
         item.changeQuantity(-1);
         recalculate();
-        if (item.getAmount() <= 0) {
+        if (item.getQuantity() <= 0) {
           iter.remove();
         }
         return;
@@ -47,7 +48,7 @@ public class Cart {
 
   public void clear() {
     items.clear();
-    totalPrice = 0L;
+    totalPrice = BigDecimal.ZERO;
   }
 
   public void merge(Cart another) {
@@ -55,7 +56,7 @@ public class Cart {
       boolean merged = false;
       for (OrderItemDto item : items) {
         if (item.getProductId().equals(anotherItem.getProductId())) {
-          item.changeQuantity(anotherItem.getAmount());
+          item.changeQuantity(anotherItem.getQuantity());
           merged = true;
           break;
         }
@@ -69,7 +70,7 @@ public class Cart {
   }
 
   private void recalculate() {
-    totalPrice = 0L;
-    items.forEach(i -> totalPrice += i.getPrice());
+    totalPrice = BigDecimal.ZERO;
+    items.forEach(i -> totalPrice = totalPrice.add(i.getPrice()));
   }
 }
