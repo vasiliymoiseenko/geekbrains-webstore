@@ -1,8 +1,6 @@
 package ru.geekbrains.webstore.core.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
@@ -20,33 +17,21 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "statuses")
 @Data
 @NoArgsConstructor
-public class Order {
+public class Status {
 
   @Id
   @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "username")
-  private String username;
+  @Column(name = "title")
+  private String title;
 
-  @Column(name = "phone")
-  private String phone;
-
-  @Column(name = "address")
-  private String address;
-
-  @Column(name = "price")
-  private BigDecimal price;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  private Status status;
-
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<OrderItem> items = new ArrayList<>();
+  @OneToMany(mappedBy = "status", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Order> orders;
 
   @CreationTimestamp
   @Column(name = "created_at")

@@ -10,17 +10,19 @@ public class OrderDto {
   private String phone;
   private String address;
   private BigDecimal price;
+  private String status;
   private List<OrderItemDto> items;
 
   public OrderDto() {
   }
 
-  public OrderDto(Long id, String username, String phone, String address, BigDecimal price, List<OrderItemDto> items) {
+  public OrderDto(Long id, String username, String phone, String address, BigDecimal price, String status, List<OrderItemDto> items) {
     this.id = id;
     this.username = username;
     this.phone = phone;
     this.address = address;
     this.price = price;
+    this.status = status;
     this.items = items;
   }
 
@@ -62,6 +64,14 @@ public class OrderDto {
 
   public void setPrice(BigDecimal price) {
     this.price = price;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   public List<OrderItemDto> getItems() {
