@@ -124,8 +124,23 @@ CREATE TABLE IF NOT EXISTS public.comments
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     CONSTRAINT comments_pkey PRIMARY KEY (id),
-    CONSTRAINT user_fkey FOREIGN KEY (username) REFERENCES public.users (username) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT users_fkey FOREIGN KEY (username) REFERENCES public.users (username) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS public.statuses CASCADE;
+CREATE TABLE IF NOT EXISTS public.statuses
+(
+    id         BIGSERIAL                     NOT NULL,
+    title      character varying(255) UNIQUE NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    CONSTRAINT statuses_pkey PRIMARY KEY (id)
+);
+INSERT INTO public.statuses (title)
+VALUES ('Awaiting payment'),
+       ('Paid'),
+       ('In delivery'),
+       ('Completed');
 
 DROP TABLE IF EXISTS public.orders CASCADE;
 CREATE TABLE IF NOT EXISTS public.orders
@@ -135,10 +150,12 @@ CREATE TABLE IF NOT EXISTS public.orders
     phone      character varying(255) NOT NULL,
     address    character varying(255) NOT NULL,
     price      numeric                NOT NULL,
+    status_id  bigint                 NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     CONSTRAINT orders_pkey PRIMARY KEY (id),
-    CONSTRAINT user_fkey FOREIGN KEY (username) REFERENCES public.users (username) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT users_fkey FOREIGN KEY (username) REFERENCES public.users (username) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT statuses_fkey FOREIGN KEY (status_id) REFERENCES public.statuses (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS public.order_items CASCADE;
@@ -154,8 +171,8 @@ CREATE TABLE IF NOT EXISTS public.order_items
     created_at        timestamp without time zone,
     updated_at        timestamp without time zone,
     CONSTRAINT order_items_pkey PRIMARY KEY (id),
-    CONSTRAINT product_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT order_fkey FOREIGN KEY (order_id) REFERENCES public.orders (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT products_fkey FOREIGN KEY (product_id) REFERENCES public.products (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT orders_fkey FOREIGN KEY (order_id) REFERENCES public.orders (id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT comments_fkey FOREIGN KEY (comment_id) REFERENCES public.comments (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

@@ -16,7 +16,8 @@ angular.module('webstore-front').controller('checkoutController',
             $scope.orderDetails)
         .then(function successCallback(response) {
           alert('Ordered successfully');
-          $location.path('/products');
+          var orderId = response.data.id;
+          $location.path('/order_pay/' + orderId);
         }, function failureCallback(response) {
           alert(response.data.messages);
         });

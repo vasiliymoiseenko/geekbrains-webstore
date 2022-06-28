@@ -30,11 +30,12 @@
         <th scope="col">ID</th>
         <th scope="col">Products</th>
         <th scope="col">Total price</th>
+        <th scope="col">Status</th>
       </tr>
     </thread>
     <tbody>
     <tr ng-repeat="ord in orders">
-      <th scope="row">{{ord.id}}</th>
+      <td>{{ord.id}}</td>
       <td>
         <table class="table align-middle table-bordered">
           <thread>
@@ -49,13 +50,14 @@
           <tr ng-repeat="i in ord.items">
             <td>{{i.productId}}</td>
             <td>{{i.productTitle}}</td>
-            <td>{{i.amount}}</td>
+            <td>{{i.quantity}}</td>
             <td>{{i.pricePerProduct}}</td>
           </tr>
           </tbody>
         </table>
       </td>
-      <th scope="row">{{ord.price}}</th>
+      <td>{{ord.price}}</td>
+      <td>{{ord.status}}</td>
     </tr>
     </tbody>
   </table>
