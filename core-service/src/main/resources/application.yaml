@@ -1,0 +1,18 @@
+server:
+  port: 8189
+  servlet:
+    context-path: /webstore-core
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+integration:
+  cart-service:
+    url: http://localhost:8191/webstore-cart

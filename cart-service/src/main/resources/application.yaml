@@ -1,0 +1,10 @@
+server:
+  port: 8191
+  servlet:
+    context-path: /webstore-cart
+integration:
+  product-service:
+    url: http://localhost:8189/webstore-core
+utils:
+  cart:
+    prefix: WEBSTORE_CART_

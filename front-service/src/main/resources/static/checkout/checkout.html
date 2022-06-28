@@ -1,0 +1,37 @@
+<div>
+  <p></p>
+  <h1>Checkout</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Price</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="i in cart.items">
+      <td>{{i.productTitle}}</td>
+      <td>{{i.amount}}</td>
+      <td>{{i.pricePerProduct + ' X ' + i.quantity + ' = ' + i.price}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td><b>{{'Total price: ' + cart.totalPrice}}</b></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p></p>
+  <h3>Order details</h3>
+  <form novalidate ng-submit="createOrder()">
+    <input class="form-control" type="text" placeholder="Phone" ng-model="orderDetails.phone">
+    <p></p>
+    <input class="form-control" type="text" placeholder="Address" ng-model="orderDetails.address">
+    <p></p>
+    <button type="submit" class="btn btn-primary">Order</button>
+  </form>
+
+</div>
