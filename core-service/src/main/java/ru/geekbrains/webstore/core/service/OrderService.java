@@ -73,4 +73,17 @@ public class OrderService {
   public List<Order> findAllByUsername(String username) {
     return orderRepository.findAllByUsername(username);
   }
+
+  public Order findByIdAndUsername(Long id, String username) {
+    return orderRepository.findOrderByIdAndUsername(id, username)
+        .orElseThrow(() -> new ResourceNotFoundException("Order id = " + id + "  and username = " + username + " not found"));
+  }
+
+  @Transactional
+  public void setStatusPaid(Long id) {
+    Order order = findById(id);
+    Status status = statusRepository.findStatusByTitle("Paid")
+        .orElseThrow(() -> new ResourceNotFoundException("Status \"Paid\" not found"));
+    order.setStatus(status);
+  }
 }

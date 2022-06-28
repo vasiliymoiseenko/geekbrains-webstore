@@ -34,6 +34,10 @@
       templateUrl: 'checkout/checkout.html',
       controller: 'checkoutController'
     })
+    .when('/order_pay/:orderId', {
+      templateUrl: 'order_pay/order_pay.html',
+      controller: 'orderPayController'
+    })
     .when('/profile', {
       templateUrl: 'profile/profile.html',
       controller: 'profileController'

@@ -1,9 +1,5 @@
 package ru.geekbrains.webstore.core.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestHeader;
-import ru.geekbrains.webstore.core.mapper.OrderMapper;
-import ru.geekbrains.webstore.core.service.OrderService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,10 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.webstore.api.dto.OrderDetailsDto;
 import ru.geekbrains.webstore.api.dto.OrderDto;
+import ru.geekbrains.webstore.core.mapper.OrderMapper;
+import ru.geekbrains.webstore.core.service.OrderService;
 
 @RestController
 @AllArgsConstructor
@@ -29,8 +28,8 @@ public class OrderController {
   }
 
   @GetMapping("/{id}")
-  public OrderDto getOrderById(@PathVariable Long id) {
-    return OrderMapper.ORDER_MAPPER.fromOrder(orderService.findById(id));
+  public OrderDto getOrderById(@RequestHeader String username, @PathVariable Long id) {
+    return OrderMapper.ORDER_MAPPER.fromOrder(orderService.findByIdAndUsername(id, username));
   }
 
   @PostMapping
